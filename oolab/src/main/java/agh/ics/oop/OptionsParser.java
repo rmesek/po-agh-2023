@@ -2,6 +2,8 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.MoveDirection;
 
+import java.util.Arrays;
+
 public class OptionsParser {
 
     public static MoveDirection[] parse_args(String[] args) {
@@ -29,6 +31,6 @@ public class OptionsParser {
                      break;
              };
         }
-        return moves;
+        return Arrays.copyOfRange(moves, 0, i);
     }
 }

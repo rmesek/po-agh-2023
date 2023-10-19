@@ -14,8 +14,6 @@ public class World {
 
     public static void run(MoveDirection[] moves) {
         for (MoveDirection move : moves) {
-            if (move == null) break;
-
             String text_move = switch (move) {
                 case FORWARD -> "Zwierzak idzie do przodu.";
                 case BACKWARD -> "Zwierzak idzie do tyłu.";
