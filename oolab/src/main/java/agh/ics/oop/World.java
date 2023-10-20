@@ -2,12 +2,10 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.MoveDirection;
 
-import static agh.ics.oop.OptionsParser.parse_args;
-
 public class World {
     public static void main(String[] args) {
         System.out.println("system wystartował");
-        MoveDirection[] moves = OptionsParser.parse_args(args);
+        MoveDirection[] moves = OptionsParser.parseArgs(args);
         run(moves);
         System.out.println("system zakończył działanie");
     }
