@@ -3,41 +3,32 @@ package agh.ics.oop.model;
 import agh.ics.oop.model.Vector2d;
 
 public enum MapDirection {
-    NORTH, EAST, SOUTH, WEST;
+    NORTH(new Vector2d(0, 1), "Północ"),
+    EAST(new Vector2d(1, 0), "Wschód"),
+    SOUTH(new Vector2d(0, -1), "Południe"),
+    WEST(new Vector2d(-1, 0), "Zachód");
+
+    private final Vector2d vector2d;
+    private final String directionString;
+
+    private MapDirection(Vector2d vector2d, String directionString) {
+        this.vector2d = vector2d;
+        this.directionString = directionString;
+    }
 
     public String toString(){
-        return switch (this) {
-            case NORTH -> "Północ";
-            case EAST -> "Wschód";
-            case SOUTH -> "Południe";
-            case WEST -> "Zachód";
-        };
+        return this.directionString;
     }
 
     public MapDirection next(){
-        return switch (this) {
-            case NORTH -> EAST;
-            case EAST -> SOUTH;
-            case SOUTH -> WEST;
-            case WEST -> NORTH;
-        };
+        return MapDirection.values()[(this.ordinal() + 1) % 4];
     }
 
     public MapDirection previous(){
-        return switch (this) {
-            case NORTH -> WEST;
-            case WEST -> SOUTH;
-            case SOUTH -> EAST;
-            case EAST -> NORTH;
-        };
+        return MapDirection.values()[(this.ordinal() + 3) % 4];
     }
 
     public Vector2d toUnitVector(){
-        return switch (this) {
-            case NORTH -> new Vector2d(0,1);
-            case WEST -> new Vector2d(-1, 0);
-            case SOUTH -> new Vector2d(0, -1);
-            case EAST -> new Vector2d(1, 0);
-        };
+        return this.vector2d;
     }
 }
