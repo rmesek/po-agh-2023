@@ -2,6 +2,9 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.OptionsParser;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OptionsParserTest {
@@ -15,10 +18,10 @@ public class OptionsParserTest {
                 MoveDirection.LEFT};
 
         // when
-        MoveDirection[] moves = OptionsParser.parseArgs(textMoves);
+        List<MoveDirection> moves = OptionsParser.parseArgs(textMoves);
 
         // then
-        assertArrayEquals(moves, correctMoves);
+        assertArrayEquals(moves.toArray(), correctMoves);
     }
 
     @Test
@@ -33,14 +36,14 @@ public class OptionsParserTest {
                 MoveDirection.LEFT};
 
         // when
-        MoveDirection[] moves1 = OptionsParser.parseArgs(textMoves1);
-        MoveDirection[] moves2 = OptionsParser.parseArgs(textMoves2);
-        MoveDirection[] moves3 = OptionsParser.parseArgs(textMoves3);
+        List<MoveDirection> moves1 = OptionsParser.parseArgs(textMoves1);
+        List<MoveDirection> moves2 = OptionsParser.parseArgs(textMoves2);
+        List<MoveDirection> moves3 = OptionsParser.parseArgs(textMoves3);
 
         // then
-        assertArrayEquals(moves1, correctMoves);
-        assertArrayEquals(moves2, correctMoves);
-        assertArrayEquals(moves3, correctMoves);
+        assertArrayEquals(moves1.toArray(), correctMoves);
+        assertArrayEquals(moves2.toArray(), correctMoves);
+        assertArrayEquals(moves3.toArray(), correctMoves);
     }
 
     @Test
@@ -50,10 +53,10 @@ public class OptionsParserTest {
         MoveDirection[] correctMoves = {};
 
         // when
-        MoveDirection[] moves = OptionsParser.parseArgs(textMoves);
+        List<MoveDirection> moves = OptionsParser.parseArgs(textMoves);
 
         // then
-        assertArrayEquals(moves, correctMoves);
+        assertArrayEquals(moves.toArray(), correctMoves);
     }
 
     @Test
@@ -63,10 +66,10 @@ public class OptionsParserTest {
         MoveDirection[] correctMoves = {MoveDirection.FORWARD};
 
         // when
-        MoveDirection[] moves = OptionsParser.parseArgs(textMoves);
+        List<MoveDirection> moves = OptionsParser.parseArgs(textMoves);
 
         // then
-        assertArrayEquals(moves, correctMoves);
+        assertArrayEquals(moves.toArray(), correctMoves);
     }
 
     @Test
@@ -76,9 +79,9 @@ public class OptionsParserTest {
         MoveDirection[] correctMoves = {};
 
         // when
-        MoveDirection[] moves = OptionsParser.parseArgs(textMoves);
+        List<MoveDirection> moves = OptionsParser.parseArgs(textMoves);
 
         // then
-        assertArrayEquals(moves, correctMoves);
+        assertArrayEquals(moves.toArray(), correctMoves);
     }
 }
