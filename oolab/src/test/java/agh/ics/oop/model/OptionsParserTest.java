@@ -18,7 +18,7 @@ public class OptionsParserTest {
                 MoveDirection.LEFT};
 
         // when
-        List<MoveDirection> moves = OptionsParser.parseArgs(textMoves);
+        List<MoveDirection> moves = OptionsParser.parse(textMoves);
 
         // then
         assertArrayEquals(moves.toArray(), correctMoves);
@@ -36,9 +36,9 @@ public class OptionsParserTest {
                 MoveDirection.LEFT};
 
         // when
-        List<MoveDirection> moves1 = OptionsParser.parseArgs(textMoves1);
-        List<MoveDirection> moves2 = OptionsParser.parseArgs(textMoves2);
-        List<MoveDirection> moves3 = OptionsParser.parseArgs(textMoves3);
+        List<MoveDirection> moves1 = OptionsParser.parse(textMoves1);
+        List<MoveDirection> moves2 = OptionsParser.parse(textMoves2);
+        List<MoveDirection> moves3 = OptionsParser.parse(textMoves3);
 
         // then
         assertArrayEquals(moves1.toArray(), correctMoves);
@@ -53,7 +53,7 @@ public class OptionsParserTest {
         MoveDirection[] correctMoves = {};
 
         // when
-        List<MoveDirection> moves = OptionsParser.parseArgs(textMoves);
+        List<MoveDirection> moves = OptionsParser.parse(textMoves);
 
         // then
         assertArrayEquals(moves.toArray(), correctMoves);
@@ -66,7 +66,7 @@ public class OptionsParserTest {
         MoveDirection[] correctMoves = {MoveDirection.FORWARD};
 
         // when
-        List<MoveDirection> moves = OptionsParser.parseArgs(textMoves);
+        List<MoveDirection> moves = OptionsParser.parse(textMoves);
 
         // then
         assertArrayEquals(moves.toArray(), correctMoves);
@@ -79,7 +79,7 @@ public class OptionsParserTest {
         MoveDirection[] correctMoves = {};
 
         // when
-        List<MoveDirection> moves = OptionsParser.parseArgs(textMoves);
+        List<MoveDirection> moves = OptionsParser.parse(textMoves);
 
         // then
         assertArrayEquals(moves.toArray(), correctMoves);
