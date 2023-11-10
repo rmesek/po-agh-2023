@@ -9,10 +9,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Simulation {
-    private List<Animal> animals = new ArrayList<>();
-    private List<MoveDirection> directions = new LinkedList<>();
+    private List<Animal> animals;
+    private List<MoveDirection> directions;
 
     public Simulation(List<Vector2d> positions, List<MoveDirection> directions) {
+        animals = new ArrayList<>(positions.size());
         for (Vector2d position: positions) {
             animals.add(new Animal(position));
         }
