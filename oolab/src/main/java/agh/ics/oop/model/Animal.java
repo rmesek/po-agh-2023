@@ -4,17 +4,23 @@ public class Animal {
     private Vector2d position;
     private MapDirection direction;
 
-    static final Vector2d MapBottomLeft = new Vector2d(0, 0);
-    static final Vector2d MapTopRight = new Vector2d(4,4);
+    static final Vector2d MAP_BOTTOM_LEFT = new Vector2d(0, 0);
+    static final Vector2d MAP_TOP_RIGHT = new Vector2d(4,4);
 
+    public Animal(Vector2d position, MapDirection direction) {
+        this.position = position;
+        this.direction = direction;
+    }
     public Animal() {
-        this.position = new Vector2d(2,2);
-        this.direction = MapDirection.NORTH;
+        this(new Vector2d(2,2), MapDirection.NORTH);
     }
 
     public Animal(Vector2d position) {
-        this.position = position;
-        this.direction = MapDirection.NORTH;
+        this(position, MapDirection.NORTH);
+    }
+
+    public Animal(MapDirection direction) {
+        this(new Vector2d(2,2), direction);
     }
 
     public String toString() {
@@ -38,14 +44,14 @@ public class Animal {
             case FORWARD:
                 moveVector = this.direction.toUnitVector();
                 newPosition = this.position.add(moveVector);
-                if (newPosition.follows(MapBottomLeft) && newPosition.precedes(MapTopRight)) {
+                if (newPosition.follows(MAP_BOTTOM_LEFT) && newPosition.precedes(MAP_TOP_RIGHT)) {
                     this.position = newPosition;
                 }
                 break;
             case BACKWARD:
                 moveVector = this.direction.toUnitVector();
                 newPosition = this.position.subtract(moveVector);
-                if (newPosition.follows(MapBottomLeft) && newPosition.precedes(MapTopRight)) {
+                if (newPosition.follows(MAP_BOTTOM_LEFT) && newPosition.precedes(MAP_TOP_RIGHT)) {
                     this.position = newPosition;
                 }
                 break;
