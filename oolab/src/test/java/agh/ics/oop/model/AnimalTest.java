@@ -10,12 +10,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AnimalTest {
+    WorldMap worldMap;
     Animal animal;
     Vector2d vector2d = new Vector2d(2,2);
 
     @BeforeEach
     void setUp() {
-        animal = new Animal(vector2d);
+        this.worldMap = new RectangularMap(5,5);
+        this.animal = new Animal(vector2d);
+        this.worldMap.place(animal);
     }
 
     @Test
@@ -27,7 +30,8 @@ public class AnimalTest {
         moves.add(MoveDirection.RIGHT);
         // when
         for (MoveDirection move: moves) {
-            animal.move(move);
+            worldMap.move(animal, move);
+            //animal.move(move);
         }
         // then
         assertEquals(MapDirection.EAST, animal.getDirection());
@@ -45,7 +49,8 @@ public class AnimalTest {
         moves.add(MoveDirection.FORWARD);
         // when
         for (MoveDirection move: moves) {
-            animal.move(move);
+            worldMap.move(animal, move);
+            //animal.move(move);
         }
         // then
         Vector2d position = new Vector2d(4,3);
@@ -71,7 +76,8 @@ public class AnimalTest {
         }
         // when
         for (MoveDirection move: moves) {
-            animal.move(move);
+            worldMap.move(animal, move);
+            //animal.move(move);
         }
         // then
         Vector2d position = new Vector2d(0,0);
