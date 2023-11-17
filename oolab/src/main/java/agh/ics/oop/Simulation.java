@@ -30,7 +30,7 @@ public class Simulation {
         for (MoveDirection direction: this.directions) {
             Animal animal = animals.get(i);
             worldMap.move(animal,direction);
-            System.out.printf(worldMap.toString());
+            System.out.println(worldMap);
             i = (i + 1) % animals.size();
         }
     }
