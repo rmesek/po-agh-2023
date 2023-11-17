@@ -4,9 +4,6 @@ public class Animal {
     private Vector2d position;
     private MapDirection direction;
 
-    static final Vector2d MAP_BOTTOM_LEFT = new Vector2d(0, 0);
-    static final Vector2d MAP_TOP_RIGHT = new Vector2d(4,4);
-
     public Animal(Vector2d position, MapDirection direction) {
         this.position = position;
         this.direction = direction;
@@ -24,14 +21,14 @@ public class Animal {
     }
 
     public String toString() {
-        return "Pozycja: %s; Orientacja: %s".formatted(this.position.toString(), this.direction.toString());
+        return this.direction.getShortString();
     }
 
     boolean isAt(Vector2d position) {
         return this.position.equals(position);
     }
 
-    public void move(MoveDirection direction) {
+    public void move(MoveDirection direction, MoveValidator worldMap) {
         Vector2d moveVector;
         Vector2d newPosition;
         switch (direction){
@@ -44,14 +41,14 @@ public class Animal {
             case FORWARD:
                 moveVector = this.direction.toUnitVector();
                 newPosition = this.position.add(moveVector);
-                if (newPosition.follows(MAP_BOTTOM_LEFT) && newPosition.precedes(MAP_TOP_RIGHT)) {
+                if (worldMap.canMoveTo(newPosition)) {
                     this.position = newPosition;
                 }
                 break;
             case BACKWARD:
                 moveVector = this.direction.toUnitVector();
                 newPosition = this.position.subtract(moveVector);
-                if (newPosition.follows(MAP_BOTTOM_LEFT) && newPosition.precedes(MAP_TOP_RIGHT)) {
+                if (worldMap.canMoveTo(newPosition)) {
                     this.position = newPosition;
                 }
                 break;
