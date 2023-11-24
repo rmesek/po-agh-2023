@@ -1,5 +1,7 @@
 package agh.ics.oop.model;
 
+import java.util.Objects;
+
 public class Animal implements WorldElement {
     private Vector2d position;
     private MapDirection direction;

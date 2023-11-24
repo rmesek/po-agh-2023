@@ -3,56 +3,34 @@ package agh.ics.oop.model;
 import agh.ics.oop.World;
 import agh.ics.oop.util.MapVisualizer;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.Math.sqrt;
 
-public class GrassField implements WorldMap {
-    private final Map<Vector2d, Animal> animals = new HashMap<>();
-    private final Map<Vector2d, Grass> grasses = new HashMap<>();
-    private Vector2d mapBottomLeft = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
-    private Vector2d mapTopRight = new Vector2d(0,0);
-    private Vector2d limitBottomLeft = new Vector2d(0,0);
-    private Vector2d limitTopRight = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
-    private final MapVisualizer visualizer = new MapVisualizer(this);
+public class GrassField extends AbstractWorldMap implements WorldMap {
+    private final Map<Vector2d, WorldElement> grasses = new HashMap<>();
+    private Vector2d boundaryBottomLeft = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    private Vector2d boundaryTopRight = new Vector2d(0,0);
+
 
     public GrassField(int grassCount) {
+        mapBottomLeft = new Vector2d(0,0);
+        mapTopRight = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
         int maxRange = (int) sqrt((long) grassCount * 10);
         RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator(maxRange, maxRange, grassCount);
         for(Vector2d grassPosition : randomPositionGenerator) {
-//            System.out.println(grassPosition);
             grasses.put(grassPosition, new Grass(grassPosition));
         }
     }
 
     @Override
-    public boolean place(Animal animal) {
-        if (canMoveTo(animal.getPosition())) {
-            this.animals.put(animal.getPosition(), animal);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void move(Animal animal, MoveDirection direction) {
-        Vector2d oldPosition = animal.getPosition();
-        animal.move(direction, this);
-        if (oldPosition != animal.getPosition()) {
-            animals.remove(oldPosition);
-            animals.put(animal.getPosition(), animal);
-        }
-    }
-
-    @Override
     public boolean isOccupied(Vector2d position) {
-        return this.animals.containsKey(position) || this.grasses.containsKey(position);
+        return super.isOccupied(position) || grasses.containsKey(position);
     }
 
     @Override
     public WorldElement objectAt(Vector2d position) {
-        WorldElement worldElement = animals.get(position);
+        WorldElement worldElement = super.objectAt(position);
         if (worldElement != null) {
             return worldElement;
         }
@@ -60,24 +38,26 @@ public class GrassField implements WorldMap {
     }
 
     @Override
-    public boolean canMoveTo(Vector2d position) {
-        return !animals.containsKey(position) && position.follows(limitBottomLeft) && position.precedes(limitTopRight);
-    }
-
-    @Override
     public String toString() {
         updateBoundaries();
-        return this.visualizer.draw(mapBottomLeft, mapTopRight);
+        return visualizer.draw(boundaryBottomLeft, boundaryTopRight);
     }
 
     private void updateBoundaries() {
         for (Vector2d animalPosition: animals.keySet()) {
-            mapTopRight = mapTopRight.upperRight(animalPosition);
-            mapBottomLeft = mapBottomLeft.lowerLeft(animalPosition);
+            boundaryTopRight = boundaryTopRight.upperRight(animalPosition);
+            boundaryBottomLeft = boundaryBottomLeft.lowerLeft(animalPosition);
         }
         for (Vector2d grassPosition: grasses.keySet()) {
-            mapTopRight = mapTopRight.upperRight(grassPosition);
-            mapBottomLeft = mapBottomLeft.lowerLeft(grassPosition);
+            boundaryTopRight = boundaryTopRight.upperRight(grassPosition);
+            boundaryBottomLeft = boundaryBottomLeft.lowerLeft(grassPosition);
         }
+    }
+
+    @Override
+    public Collection<WorldElement> getElements() {
+        Collection<WorldElement> combinedCollection = new LinkedList<>(grasses.values());
+        combinedCollection.addAll(super.getElements());
+        return Collections.unmodifiableCollection(combinedCollection);
     }
 }
