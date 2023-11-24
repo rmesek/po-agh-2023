@@ -9,13 +9,14 @@ import static java.lang.Math.sqrt;
 
 public class GrassField extends AbstractWorldMap implements WorldMap {
     private final Map<Vector2d, WorldElement> grasses = new HashMap<>();
+    final Vector2d mapBottomLeft = new Vector2d(0, 0);
     private Vector2d boundaryBottomLeft = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
     private Vector2d boundaryTopRight = new Vector2d(0,0);
 
 
     public GrassField(int grassCount) {
-        mapBottomLeft = new Vector2d(0,0);
-        mapTopRight = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
+//        mapBottomLeft = new Vector2d(0,0);
+//        mapTopRight = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
         int maxRange = (int) sqrt((long) grassCount * 10);
         RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator(maxRange, maxRange, grassCount);
         for(Vector2d grassPosition : randomPositionGenerator) {
@@ -55,9 +56,14 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public Collection<WorldElement> getElements() {
-        Collection<WorldElement> combinedCollection = new LinkedList<>(grasses.values());
+    public boolean canMoveTo(Vector2d position) {
+        return super.canMoveTo(position) && position.follows(mapBottomLeft);
+    }
+
+    @Override
+    public List<WorldElement> getElements() {
+        LinkedList<WorldElement> combinedCollection = new LinkedList<>(grasses.values());
         combinedCollection.addAll(super.getElements());
-        return Collections.unmodifiableCollection(combinedCollection);
+        return combinedCollection;
     }
 }

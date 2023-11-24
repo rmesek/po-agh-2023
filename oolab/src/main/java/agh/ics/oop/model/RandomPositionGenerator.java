@@ -10,7 +10,7 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
         this.maxWidth = maxWidth;
         long maxLength = (long) maxWidth * (long) maxHeight;
         if (grassCount > maxLength) {
-            throw new UnsupportedOperationException("cannot generate more grasses than spaces");
+            throw new IllegalArgumentException("cannot generate more grasses than spaces");
         }
         if (grassCount > 0) {
             this.it = new Random().longs(0, maxLength).distinct().limit(grassCount).boxed().iterator();
