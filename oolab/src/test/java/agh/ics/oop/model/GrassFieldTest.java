@@ -9,14 +9,17 @@ public class GrassFieldTest {
     public void testPlaceEmpty() {
         // given
         GrassField grassField = new GrassField(0);
-        Vector2d vector2d = new Vector2d(0,0);
-        Animal animal = new Animal(vector2d);
+        Vector2d vector2d1 = new Vector2d(0,0);
+        Vector2d vector2d2 = new Vector2d(-1, 0);
+        Animal animal1 = new Animal(vector2d1);
+        Animal animal2 = new Animal(vector2d2);
 
         // when
-        assertTrue(grassField.place(animal));
-        assertFalse(grassField.place(new Animal(new Vector2d(-1, 0))));
+        assertTrue(grassField.place(animal1));
+        assertTrue(grassField.place(animal2));
         // then
-        assertTrue(animal == grassField.objectAt(vector2d));
+        assertTrue(animal1 == grassField.objectAt(vector2d1));
+        assertTrue(animal2 == grassField.objectAt(vector2d2));
     }
 
     @Test

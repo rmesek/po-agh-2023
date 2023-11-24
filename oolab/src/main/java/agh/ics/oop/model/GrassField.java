@@ -9,9 +9,8 @@ import static java.lang.Math.sqrt;
 
 public class GrassField extends AbstractWorldMap implements WorldMap {
     private final Map<Vector2d, WorldElement> grasses = new HashMap<>();
-    final Vector2d mapBottomLeft = new Vector2d(0, 0);
     private Vector2d boundaryBottomLeft = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
-    private Vector2d boundaryTopRight = new Vector2d(0,0);
+    private Vector2d boundaryTopRight = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
 
     public GrassField(int grassCount) {
@@ -53,11 +52,6 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
             boundaryTopRight = boundaryTopRight.upperRight(grassPosition);
             boundaryBottomLeft = boundaryBottomLeft.lowerLeft(grassPosition);
         }
-    }
-
-    @Override
-    public boolean canMoveTo(Vector2d position) {
-        return super.canMoveTo(position) && position.follows(mapBottomLeft);
     }
 
     @Override
