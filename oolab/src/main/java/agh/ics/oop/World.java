@@ -11,8 +11,5 @@ public class World {
         List<MoveDirection> directions = OptionsParser.parse(args);
         Simulation simulation = new Simulation(positions, directions, grassField);
         simulation.run();
-//        for (WorldElement worldElement : grassField.getElements()) {
-//            System.out.println(worldElement);
-//        }
     }
 }
