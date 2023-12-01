@@ -17,7 +17,7 @@ public enum MapDirection {
     }
 
     public String toString(){
-        return this.directionString;
+        return this.shortString;
     }
 
     public MapDirection next(){

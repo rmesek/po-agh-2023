@@ -8,12 +8,12 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
     private final int limit;
     private final int maxWidth;
 
-    public RandomPositionGenerator(int maxWidth, int maxHeight, int grassCount) {
-        this.limit = grassCount;
+    public RandomPositionGenerator(int maxWidth, int maxHeight, int count) {
+        this.limit = count;
         this.maxWidth = maxWidth;
         long maxLength = (long) maxWidth * (long) maxHeight;
-        if (grassCount > maxLength) {
-            throw new IllegalArgumentException("cannot generate more grasses than spaces");
+        if (count > maxLength) {
+            throw new IllegalArgumentException("Cannot generate more positions than spaces");
         }
         this.order = new ArrayList<>(LongStream.rangeClosed(0, maxLength - 1).boxed().toList());
         Collections.shuffle(this.order);
