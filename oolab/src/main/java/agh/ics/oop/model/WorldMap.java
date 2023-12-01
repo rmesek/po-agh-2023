@@ -47,4 +47,11 @@ public interface WorldMap extends MoveValidator {
      * @return collection of all world elements on the map.
      */
     Collection<WorldElement> getElements();
+
+    /**
+     * Return boundary of a map.
+     *
+     * @return boundary of a map.
+     */
+    Boundary getCurrentBounds();
 }

@@ -45,4 +45,10 @@ public abstract class AbstractWorldMap implements WorldMap {
     public List<WorldElement> getElements() {
         return new LinkedList<>(animals.values());
     }
+
+    @Override
+    public String toString() {
+        Boundary boundary = getCurrentBounds();
+        return visualizer.draw(boundary.BottomLeftVec(), boundary.TopRightVec());
+    }
 }

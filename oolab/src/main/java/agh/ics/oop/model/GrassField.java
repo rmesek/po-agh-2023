@@ -6,9 +6,8 @@ import static java.lang.Math.sqrt;
 
 public class GrassField extends AbstractWorldMap implements WorldMap {
     private final Map<Vector2d, WorldElement> grasses = new HashMap<>();
-    private Vector2d boundaryBottomLeft = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
-    private Vector2d boundaryTopRight = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
+    private Boundary boundary = new Boundary(new Vector2d(0,0), new Vector2d(0,0));
 
     public GrassField(int grassCount) {
         int maxRange = (int) sqrt((long) grassCount * 10);
@@ -32,20 +31,12 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
         return grasses.get(position);
     }
 
-    @Override
-    public String toString() {
-        updateBoundaries();
-        return visualizer.draw(boundaryBottomLeft, boundaryTopRight);
-    }
-
     private void updateBoundaries() {
         for (Vector2d animalPosition: animals.keySet()) {
-            boundaryTopRight = boundaryTopRight.upperRight(animalPosition);
-            boundaryBottomLeft = boundaryBottomLeft.lowerLeft(animalPosition);
+            this.boundary = new Boundary(boundary.BottomLeftVec().lowerLeft(animalPosition), boundary.TopRightVec().upperRight(animalPosition));
         }
         for (Vector2d grassPosition: grasses.keySet()) {
-            boundaryTopRight = boundaryTopRight.upperRight(grassPosition);
-            boundaryBottomLeft = boundaryBottomLeft.lowerLeft(grassPosition);
+            this.boundary = new Boundary(boundary.BottomLeftVec().lowerLeft(grassPosition), boundary.TopRightVec().upperRight(grassPosition));
         }
     }
 
@@ -54,5 +45,11 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
         LinkedList<WorldElement> combinedCollection = new LinkedList<>(grasses.values());
         combinedCollection.addAll(super.getElements());
         return combinedCollection;
+    }
+
+    @Override
+    public Boundary getCurrentBounds() {
+        updateBoundaries();
+        return this.boundary;
     }
 }
