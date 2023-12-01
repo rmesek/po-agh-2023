@@ -1,7 +1,7 @@
 package agh.ics.oop.model;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RectangularMapTest {
@@ -13,8 +13,9 @@ public class RectangularMapTest {
         Animal animal = new Animal(vector2d);
 
         // when
-        assertFalse(rectangularMap.place(animal));
+
         // then
+        assertThrows(PositionAlreadyOccupiedException.class, () -> rectangularMap.place(animal));
         assertNull(rectangularMap.objectAt(vector2d));
     }
 
@@ -27,18 +28,31 @@ public class RectangularMapTest {
         Animal animal2 = new Animal(vector2d);
 
         // when
-        assertTrue(rectangularMap.place(animal1));
-        assertFalse(rectangularMap.place(animal1));
-        assertFalse(rectangularMap.place(animal2));
+        try {
+            rectangularMap.place(animal1);
+        } catch (PositionAlreadyOccupiedException e) {
+            fail(e);
+        }
 
         // then
+        Exception exception1 = assertThrows(PositionAlreadyOccupiedException.class, () -> rectangularMap.place(animal1));
+        String expectedMessage = "Position (2,3) is already occupied";
+        String actualMessage1 = exception1.getMessage();
+
+        assertTrue(actualMessage1.contains(expectedMessage));
+
+        Exception exception2 = assertThrows(PositionAlreadyOccupiedException.class, () -> rectangularMap.place(animal2));
+        String actualMessage2 = exception2.getMessage();
+
+        assertTrue(actualMessage2.contains(expectedMessage));
+
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (i != 2 && j != 3) {
                     assertNull(rectangularMap.objectAt(new Vector2d(i, j)));
                 } else if (i == 2 && j == 3) {
-                    assertTrue(animal1 == rectangularMap.objectAt(new Vector2d(i, j)));
-                    assertFalse(animal2 == rectangularMap.objectAt(new Vector2d(i, j)));
+                    assertSame(animal1, rectangularMap.objectAt(new Vector2d(i, j)));
+                    assertNotSame(animal2, rectangularMap.objectAt(new Vector2d(i, j)));
                 }
             }
         }
@@ -54,24 +68,28 @@ public class RectangularMapTest {
         Animal animal2 = new Animal(vector2d2);
 
         // when
-        assertTrue(rectangularMap.place(animal1));
-        assertTrue(rectangularMap.place(animal2));
+        try {
+            rectangularMap.place(animal1);
+            rectangularMap.place(animal2);
+        } catch (PositionAlreadyOccupiedException e) {
+            fail(e);
+        }
 
         // then
         rectangularMap.move(animal1, MoveDirection.FORWARD);
-        assertTrue(animal1 == rectangularMap.objectAt(vector2d1));
+        assertSame(animal1, rectangularMap.objectAt(vector2d1));
 
         rectangularMap.move(animal2, MoveDirection.FORWARD);
-        assertTrue(animal2 == rectangularMap.objectAt(vector2d2));
+        assertSame(animal2, rectangularMap.objectAt(vector2d2));
 
         rectangularMap.move(animal2, MoveDirection.RIGHT);
         rectangularMap.move(animal2, MoveDirection.FORWARD);
-        assertTrue(animal2 == rectangularMap.objectAt(new Vector2d(1, 1)));
+        assertSame(animal2, rectangularMap.objectAt(new Vector2d(1, 1)));
 
         rectangularMap.move(animal1, MoveDirection.FORWARD);
-        assertTrue(animal1 == rectangularMap.objectAt(new Vector2d(0, 1)));
+        assertSame(animal1, rectangularMap.objectAt(new Vector2d(0, 1)));
 
         rectangularMap.move(animal1, MoveDirection.FORWARD);
-        assertTrue(animal1 == rectangularMap.objectAt(new Vector2d(0, 1)));
+        assertSame(animal1, rectangularMap.objectAt(new Vector2d(0, 1)));
     }
 }

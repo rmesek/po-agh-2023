@@ -1,8 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.World;
-import agh.ics.oop.util.MapVisualizer;
-
 import java.util.*;
 
 import static java.lang.Math.sqrt;
@@ -14,8 +11,6 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
 
 
     public GrassField(int grassCount) {
-//        mapBottomLeft = new Vector2d(0,0);
-//        mapTopRight = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
         int maxRange = (int) sqrt((long) grassCount * 10);
         RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator(maxRange, maxRange, grassCount);
         for(Vector2d grassPosition : randomPositionGenerator) {

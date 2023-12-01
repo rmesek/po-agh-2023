@@ -32,14 +32,14 @@ public class Vector2d {
     }
 
     public Vector2d upperRight(Vector2d other) {
-        int biggerX = this.x >= other.getX() ? this.x : other.getX();
-        int biggerY = this.y >= other.getY() ? this.y : other.getY();
+        int biggerX = Math.max(this.x, other.getX());
+        int biggerY = Math.max(this.y, other.getY());
         return new Vector2d(biggerX, biggerY);
     }
 
     public Vector2d lowerLeft(Vector2d other) {
-        int smallerX = this.x <= other.getX() ? this.x : other.getX();
-        int smallerY = this.y <= other.getY() ? this.y : other.getY();
+        int smallerX = Math.min(this.x, other.getX());
+        int smallerY = Math.min(this.y, other.getY());
         return new Vector2d(smallerX, smallerY);
     }
 

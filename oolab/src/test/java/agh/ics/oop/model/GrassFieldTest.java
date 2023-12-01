@@ -1,7 +1,7 @@
 package agh.ics.oop.model;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GrassFieldTest {
@@ -15,11 +15,16 @@ public class GrassFieldTest {
         Animal animal2 = new Animal(vector2d2);
 
         // when
-        assertTrue(grassField.place(animal1));
-        assertTrue(grassField.place(animal2));
+        try {
+            grassField.place(animal1);
+            grassField.place(animal2);
+        } catch (PositionAlreadyOccupiedException e) {
+            fail(e);
+        }
+
         // then
-        assertTrue(animal1 == grassField.objectAt(vector2d1));
-        assertTrue(animal2 == grassField.objectAt(vector2d2));
+        assertSame(animal1, grassField.objectAt(vector2d1));
+        assertSame(animal2, grassField.objectAt(vector2d2));
     }
 
     @Test
@@ -54,24 +59,29 @@ public class GrassFieldTest {
         Animal animal2 = new Animal(vector2d2);
 
         // when
-        assertTrue(grassField.place(animal1));
-        assertTrue(grassField.place(animal2));
+        try {
+            grassField.place(animal1);
+            grassField.place(animal2);
+        } catch (PositionAlreadyOccupiedException e) {
+            fail(e);
+        }
+
 
         // then
         grassField.move(animal1, MoveDirection.FORWARD);
-        assertTrue(animal1 == grassField.objectAt(vector2d1));
+        assertSame(animal1, grassField.objectAt(vector2d1));
 
         grassField.move(animal2, MoveDirection.FORWARD);
-        assertTrue(animal2 == grassField.objectAt(new Vector2d(0,2)));
+        assertSame(animal2, grassField.objectAt(new Vector2d(0, 2)));
 
         grassField.move(animal2, MoveDirection.RIGHT);
         grassField.move(animal2, MoveDirection.FORWARD);
-        assertTrue(animal2 == grassField.objectAt(new Vector2d(1, 2)));
+        assertSame(animal2, grassField.objectAt(new Vector2d(1, 2)));
 
         grassField.move(animal1, MoveDirection.FORWARD);
-        assertTrue(animal1 == grassField.objectAt(new Vector2d(0, 1)));
+        assertSame(animal1, grassField.objectAt(new Vector2d(0, 1)));
 
         grassField.move(animal1, MoveDirection.FORWARD);
-        assertTrue(animal1 == grassField.objectAt(new Vector2d(0, 2)));
+        assertSame(animal1, grassField.objectAt(new Vector2d(0, 2)));
     }
 }

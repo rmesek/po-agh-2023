@@ -30,20 +30,13 @@ public class OptionsParserTest {
         String[] textMoves1 = {"f", "f", "r", "l", "asd"};
         String[] textMoves2 = {"asd", "f", "f", "r", "l"};
         String[] textMoves3 = {"f", "asd", "f", "r", "l"};
-        MoveDirection[] correctMoves = {MoveDirection.FORWARD,
-                MoveDirection.FORWARD,
-                MoveDirection.RIGHT,
-                MoveDirection.LEFT};
 
         // when
-        List<MoveDirection> moves1 = OptionsParser.parse(textMoves1);
-        List<MoveDirection> moves2 = OptionsParser.parse(textMoves2);
-        List<MoveDirection> moves3 = OptionsParser.parse(textMoves3);
 
         // then
-        assertArrayEquals(moves1.toArray(), correctMoves);
-        assertArrayEquals(moves2.toArray(), correctMoves);
-        assertArrayEquals(moves3.toArray(), correctMoves);
+        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(textMoves1));
+        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(textMoves2));
+        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(textMoves3));
     }
 
     @Test
@@ -76,12 +69,13 @@ public class OptionsParserTest {
     public void testParseArgsSingleWrong() {
         // given
         String[] textMoves = {"asd"};
-        MoveDirection[] correctMoves = {};
 
         // when
-        List<MoveDirection> moves = OptionsParser.parse(textMoves);
 
         // then
-        assertArrayEquals(moves.toArray(), correctMoves);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(textMoves));
+        String expectedMessage = "asd is not legal move specification";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }

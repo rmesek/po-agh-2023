@@ -1,25 +1,26 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
-import agh.ics.oop.model.WorldMap;
+import agh.ics.oop.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
-    private List<Animal> animals;
-    private List<MoveDirection> directions;
-    private WorldMap worldMap;
+    private final List<Animal> animals;
+    private final List<MoveDirection> directions;
+    private final WorldMap worldMap;
 
     public Simulation(List<Vector2d> positions, List<MoveDirection> directions, WorldMap worldMap) {
         animals = new ArrayList<>(positions.size());
         for (Vector2d position: positions) {
             Animal animal = new Animal(position);
-            if (worldMap.place(animal)) {
-                animals.add(animal);
+            try {
+                worldMap.place(animal);
+            } catch (PositionAlreadyOccupiedException ex) {
+                System.out.println(ex.getMessage());
+                continue;
             }
+            animals.add(animal);
         }
         this.directions = directions;
         this.worldMap = worldMap;

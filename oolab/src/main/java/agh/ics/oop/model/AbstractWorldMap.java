@@ -9,12 +9,11 @@ public abstract class AbstractWorldMap implements WorldMap {
     protected final Map<Vector2d, WorldElement> animals = new HashMap<>();
 
     @Override
-    public boolean place(Animal animal) {
-        if (canMoveTo(animal.getPosition())) {
-            animals.put(animal.getPosition(), animal);
-            return true;
+    public void place(Animal animal) throws PositionAlreadyOccupiedException {
+        if (!canMoveTo(animal.getPosition())) {
+            throw new PositionAlreadyOccupiedException(animal.getPosition());
         }
-        return false;
+        animals.put(animal.getPosition(), animal);
     }
 
     @Override
@@ -44,6 +43,6 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     @Override
     public List<WorldElement> getElements() {
-        return new LinkedList<WorldElement>(animals.values());
+        return new LinkedList<>(animals.values());
     }
 }

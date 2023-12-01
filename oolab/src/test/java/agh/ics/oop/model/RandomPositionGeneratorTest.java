@@ -96,8 +96,5 @@ public class RandomPositionGeneratorTest {
         assertEquals(solutionNumber, positions.size());
     }
 
-    @Test
-    public void testTooMuch() {
-        // TODO
-    }
+    // TODO testTooMuch()
 }
