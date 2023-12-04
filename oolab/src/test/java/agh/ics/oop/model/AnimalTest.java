@@ -1,6 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.Animal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AnimalTest {
     WorldMap worldMap;
     Animal animal;
-    Vector2d vector2d = new Vector2d(2,2);
+    final Vector2d vector2d = new Vector2d(2,2);
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws PositionAlreadyOccupiedException {
         this.worldMap = new RectangularMap(5,5);
         this.animal = new Animal(vector2d);
         this.worldMap.place(animal);

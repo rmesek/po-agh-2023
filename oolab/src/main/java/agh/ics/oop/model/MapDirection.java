@@ -1,7 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.Vector2d;
-
 public enum MapDirection {
     NORTH(new Vector2d(0, 1), "Północ", "N"),
     EAST(new Vector2d(1, 0), "Wschód", "E"),
@@ -12,14 +10,14 @@ public enum MapDirection {
     private final String directionString;
     private final String shortString;
 
-    private MapDirection(Vector2d vector2d, String directionString, String shortString) {
+    MapDirection(Vector2d vector2d, String directionString, String shortString) {
         this.vector2d = vector2d;
         this.directionString = directionString;
         this.shortString = shortString;
     }
 
     public String toString(){
-        return this.directionString;
+        return this.shortString;
     }
 
     public MapDirection next(){
