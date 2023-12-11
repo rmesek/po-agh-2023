@@ -62,4 +62,7 @@ public interface WorldMap extends MoveValidator {
      * @return Unique UUID.
      */
     UUID getId();
+
+    void subscribe(MapChangeListener listener);
+    void unsubscribe(MapChangeListener listener);
 }

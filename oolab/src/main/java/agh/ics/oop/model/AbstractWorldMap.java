@@ -14,10 +14,12 @@ public abstract class AbstractWorldMap implements WorldMap {
         this.id = UUID.randomUUID();
     }
 
+    @Override
     public void subscribe(MapChangeListener listener) {
         mapChangeListeners.add(listener);
     }
 
+    @Override
     public void unsubscribe(MapChangeListener listener) {
         mapChangeListeners.remove(listener);
     }
