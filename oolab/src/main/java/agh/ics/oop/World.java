@@ -13,10 +13,14 @@ public class World {
             simulations.add(prepareRectangularMap(args));
             SimulationEngine simulationEngine = new SimulationEngine(simulations);
 
-            simulationEngine.runSync();
+            simulationEngine.runAsync();
+            simulationEngine.awaitSimulationsEnd();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
+        } catch (InterruptedException e) {
+            System.out.println("Simulation interrupted: " + e.getMessage());
         }
+        System.out.println("System zakończył działanie");
     }
 
     private static Simulation prepareGrassField(String[] args) throws IllegalArgumentException {
