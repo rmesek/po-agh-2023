@@ -28,10 +28,17 @@ public class Simulation implements Runnable {
     @Override
     public void run() {
         int i = 0;
-        for (MoveDirection direction: this.directions) {
-            Animal animal = animals.get(i);
-            worldMap.move(animal,direction);
-            i = (i + 1) % animals.size();
+        try {
+            for (MoveDirection direction: this.directions) {
+                Animal animal = animals.get(i);
+                worldMap.move(animal,direction);
+                i = (i + 1) % animals.size();
+
+                Thread.sleep(500);
+            }
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
         }
+
     }
 }

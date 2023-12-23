@@ -32,6 +32,7 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
     }
 
     private void updateBoundaries() {
+        this.boundary = new Boundary(new Vector2d(Integer.MAX_VALUE,Integer.MAX_VALUE), new Vector2d(Integer.MIN_VALUE,Integer.MIN_VALUE));
         for (Vector2d animalPosition: animals.keySet()) {
             this.boundary = new Boundary(boundary.BottomLeftVec().lowerLeft(animalPosition), boundary.TopRightVec().upperRight(animalPosition));
         }
