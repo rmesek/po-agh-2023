@@ -51,8 +51,8 @@ public class SimulationPresenter implements MapChangeListener {
         int yMax = boundary.TopRightVec().getY();
 
         addEdge(mapGrid);
-        addLegendX(mapGrid, xMin, xMax);
-        addLegendY(mapGrid, yMin, yMax);
+        addKeyX(mapGrid, xMin, xMax);
+        addKeyY(mapGrid, yMin, yMax);
 
         for (int x = xMin; x <= xMax; x++) {
              for (int y = yMin; y <= yMax; y++) {
@@ -82,7 +82,7 @@ public class SimulationPresenter implements MapChangeListener {
         mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
     }
 
-    private void addLegendX(GridPane mapGrid, int fromValue, int toValue) {
+    private void addKeyX(GridPane mapGrid, int fromValue, int toValue) {
         for (int x = 0; x <= toValue - fromValue; ++x) {
             Label label = new Label();
             label.setText(String.valueOf(fromValue + x));
@@ -92,7 +92,7 @@ public class SimulationPresenter implements MapChangeListener {
         }
     }
 
-    private void addLegendY(GridPane mapGrid, int fromValue, int toValue) {
+    private void addKeyY(GridPane mapGrid, int fromValue, int toValue) {
         for (int y = 0; y <= toValue - fromValue; ++y) {
             Label label = new Label();
             label.setText(String.valueOf(fromValue + y));
