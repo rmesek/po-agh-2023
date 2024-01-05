@@ -5,7 +5,7 @@ import agh.ics.oop.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Simulation {
+public class Simulation implements Runnable {
     private final List<Animal> animals;
     private final List<MoveDirection> directions;
     private final WorldMap worldMap;
@@ -25,6 +25,7 @@ public class Simulation {
         this.worldMap = worldMap;
     }
 
+    @Override
     public void run() {
         int i = 0;
         for (MoveDirection direction: this.directions) {

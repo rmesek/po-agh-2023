@@ -8,11 +8,18 @@ public abstract class AbstractWorldMap implements WorldMap {
     protected final MapVisualizer visualizer = new MapVisualizer(this);
     protected final Map<Vector2d, WorldElement> animals = new HashMap<>();
     private final List<MapChangeListener> mapChangeListeners = new ArrayList<>();
+    private final UUID id;
 
+    protected AbstractWorldMap() {
+        this.id = UUID.randomUUID();
+    }
+
+    @Override
     public void subscribe(MapChangeListener listener) {
         mapChangeListeners.add(listener);
     }
 
+    @Override
     public void unsubscribe(MapChangeListener listener) {
         mapChangeListeners.remove(listener);
     }
@@ -71,5 +78,10 @@ public abstract class AbstractWorldMap implements WorldMap {
     public String toString() {
         Boundary boundary = getCurrentBounds();
         return visualizer.draw(boundary.BottomLeftVec(), boundary.TopRightVec());
+    }
+
+    @Override
+    public UUID getId() {
+        return this.id;
     }
 }
