@@ -77,7 +77,7 @@
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <ComboBox fx:id="mapVariantInput" disable="true"/>
+                <ComboBox fx:id="mapVariantInput"/>
                 <HBox.margin>
                     <Insets left="10.0"/>
                 </HBox.margin>
@@ -327,7 +327,7 @@
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <ComboBox fx:id="behaviorVariantInput" disable="true"/>
+                <ComboBox fx:id="behaviorVariantInput"/>
                 <HBox.margin>
                     <Insets left="10.0"/>
                 </HBox.margin>
