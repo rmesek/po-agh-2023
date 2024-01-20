@@ -1,0 +1,14 @@
+.main-vbox {
+}
+
+.main-vbox TextField, ComboBox {
+    -fx-min-width: 150px;
+}
+
+.button-box {
+}
+
+.button-box Button {
+    -fx-min-width: 150px;
+}
+
