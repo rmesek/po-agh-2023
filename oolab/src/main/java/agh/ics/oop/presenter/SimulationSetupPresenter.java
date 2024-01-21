@@ -6,9 +6,8 @@ import agh.ics.oop.util.MapVariant;
 import agh.ics.oop.util.MutationVariant;
 import agh.ics.oop.util.PlantGrowthVariant;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -16,14 +15,21 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Hashtable;
 import java.util.Properties;
+
+import static java.lang.Integer.parseInt;
 
 public class SimulationSetupPresenter {
     private static final String DEFAULT_PROPERTIES_PATH = "default.properties";
-    private final List<TextField> textFields = new ArrayList<>();
-    private final List<ComboBox<?>> comboBoxes = new ArrayList<>();
+    private final Hashtable<TextField, TextFieldData<Integer>> textFieldProperties = new Hashtable<>();
+    private int invalidFields = 0;
+    @FXML
+    private Label problemLabel;
+    @FXML
+    private Button exportButton;
+    @FXML
+    private Button startButton;
     @FXML
     private ScrollPane simulationSetupPane;
 
@@ -77,30 +83,79 @@ public class SimulationSetupPresenter {
 
     @FXML
     private void initialize() {
-        textFields.add(mapWidthInput);
-        textFields.add(mapHeightInput);
-        textFields.add(initialNumberOfPlantsInput);
-        textFields.add(energyPerPlantInput);
-        textFields.add(newPlantsPerDayInput);
-        textFields.add(initialNumberOfAnimalsInput);
-        textFields.add(initialEnergyOfAnimalInput);
-        textFields.add(wellFedEnergyInput);
-        textFields.add(reproductionEnergyInput);
-        textFields.add(minNumberOfMutationsInput);
-        textFields.add(maxNumberOfMutationsInput);
-        textFields.add(lenOfGenomeInput);
+        textFieldProperties.put(mapWidthInput, TextFieldsConfig.MAP_WIDTH);
+        textFieldProperties.put(mapHeightInput, TextFieldsConfig.MAP_HEIGHT);
+        textFieldProperties.put(initialNumberOfPlantsInput, TextFieldsConfig.INITIAL_NUMBER_OF_PLANTS);
+        textFieldProperties.put(energyPerPlantInput, TextFieldsConfig.ENERGY_PER_PLANT);
+        textFieldProperties.put(newPlantsPerDayInput, TextFieldsConfig.NEW_PLANTS_PER_DAY);
+        textFieldProperties.put(initialNumberOfAnimalsInput, TextFieldsConfig.INITIAL_NUMBER_OF_ANIMALS);
+        textFieldProperties.put(initialEnergyOfAnimalInput, TextFieldsConfig.INITIAL_ENERGY_OF_ANIMAL);
+        textFieldProperties.put(wellFedEnergyInput, TextFieldsConfig.WELL_FED_ENERGY);
+        textFieldProperties.put(reproductionEnergyInput, TextFieldsConfig.REPRODUCTION_ENERGY);
+        textFieldProperties.put(minNumberOfMutationsInput, TextFieldsConfig.MIN_NUMBER_OF_MUTATIONS);
+        textFieldProperties.put(maxNumberOfMutationsInput, TextFieldsConfig.MAX_NUMBER_OF_MUTATIONS);
+        textFieldProperties.put(lenOfGenomeInput, TextFieldsConfig.LEN_OF_GENOME);
 
         mapVariantInput.getItems().addAll(MapVariant.values());
         plantGrowthVariantInput.getItems().addAll(PlantGrowthVariant.values());
         mutationVariantInput.getItems().addAll(MutationVariant.values());
         behaviorVariantInput.getItems().addAll(BehaviorVariant.values());
 
-        comboBoxes.add(mapVariantInput);
-        comboBoxes.add(plantGrowthVariantInput);
-        comboBoxes.add(mutationVariantInput);
-        comboBoxes.add(behaviorVariantInput);
-
         onDefaults();
+        setupValidators();
+    }
+
+    private void setupValidators() {
+        for (TextField textField : textFieldProperties.keySet()) {
+            setupIntValidator(textField, textFieldProperties.get(textField));
+        }
+        exportButton.disableProperty().bind(startButton.disableProperty());
+    }
+
+    private void setupIntValidator(TextField textField, TextFieldData<Integer> valueConfig) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            // set textField color to red if input is invalid
+            if (!isValidInt(newValue, valueConfig)) {
+                textField.setStyle("-fx-background-color: #ff6464");
+                if (isValidInt(oldValue, valueConfig)) {
+                    invalidFields++;
+                    startButton.disableProperty().setValue(true);
+                    problemLabel.setTextFill(Color.RED);
+                }
+            } else {
+                // clear style
+                textField.setStyle(null);
+                if (!isValidInt(oldValue, valueConfig)) {
+                    invalidFields--;
+                    problemLabel.setTextFill(Color.BLACK);
+                    if (invalidFields == 0) {
+                        startButton.disableProperty().setValue(false);
+                    }
+                }
+            }
+        });
+
+        textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                if (!isValidInt(textField.getText(), valueConfig)) {
+                    problemLabel.setTextFill(Color.RED);
+                }
+                problemLabel.setText(textField.getId() + " [" + valueConfig.min + ", " + valueConfig.max + "]");
+            } else {
+                problemLabel.setTextFill(Color.BLACK);
+                problemLabel.setText("");
+            }
+        });
+    }
+
+    private boolean isValidInt(String value, TextFieldData<Integer> limit) {
+        int intValue;
+        try {
+            intValue = parseInt(value);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return intValue >= limit.min && intValue <= limit.max;
     }
 
     private File getDefaultProperties() throws IOException {
@@ -113,38 +168,59 @@ public class SimulationSetupPresenter {
 
     private void loadConfig(File file) throws IOException {
         // https://www.baeldung.com/java-properties
-        // https://docs.oracle.com/javase/8/docs/api/java/io/File.html
-        System.out.println(file);  // TODO: remove
-
         Properties properties = new Properties();
         properties.load(new FileInputStream(file));
         try {
             parseProperties(properties);
+            invalidFields = 0;
         } catch (IllegalArgumentException | NullPointerException e) {
             throw new IOException("Failed to parse properties file.");
         }
     }
 
-    private void parseProperties(Properties properties) {
-        mapWidthInput.setText(properties.getProperty("mapWidth"));
-        mapHeightInput.setText(properties.getProperty("mapHeight"));
+    private void parseProperties(Properties properties) throws IllegalArgumentException, NullPointerException {
+        for (TextField textField : textFieldProperties.keySet()) {
+            TextFieldData<Integer> valueConfig = textFieldProperties.get(textField);
+            String property = properties.getProperty(valueConfig.propertyName);
+            if (!isValidInt(property, valueConfig)) {
+                throw new IllegalArgumentException("Invalid value for " + valueConfig.propertyName);
+            }
+            textField.setText(property);
+        }
         mapVariantInput.setValue(MapVariant.valueOf(properties.getProperty("mapVariant")));
-        initialNumberOfPlantsInput.setText(properties.getProperty("initialNumberOfPlants"));
-        energyPerPlantInput.setText(properties.getProperty("energyPerPlant"));
-        newPlantsPerDayInput.setText(properties.getProperty("newPlantsPerDay"));
         plantGrowthVariantInput.setValue(PlantGrowthVariant.valueOf(properties.getProperty("plantGrowthVariant")));
-        initialNumberOfAnimalsInput.setText(properties.getProperty("initialNumberOfAnimals"));
-        initialEnergyOfAnimalInput.setText(properties.getProperty("initialEnergyOfAnimal"));
-        wellFedEnergyInput.setText(properties.getProperty("wellFedEnergy"));
-        reproductionEnergyInput.setText(properties.getProperty("reproductionEnergy"));
-        minNumberOfMutationsInput.setText(properties.getProperty("minNumberOfMutations"));
-        maxNumberOfMutationsInput.setText(properties.getProperty("maxNumberOfMutations"));
         mutationVariantInput.setValue(MutationVariant.valueOf(properties.getProperty("mutationVariant")));
-        lenOfGenomeInput.setText(properties.getProperty("lenOfGenome"));
         behaviorVariantInput.setValue(BehaviorVariant.valueOf(properties.getProperty("behaviorVariant")));
     }
 
-    private MapConfig getMapConfig() {  // TODO: validate input
+    private File chooseLoadFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Configuration File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("properties", "*.properties"));
+        return fileChooser.showOpenDialog(simulationSetupPane.getScene().getWindow());
+    }
+
+    private File chooseSaveFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Configuration File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("properties", "*.properties"));
+        return fileChooser.showSaveDialog(simulationSetupPane.getScene().getWindow());
+    }
+
+    private void saveConfig(File file) throws IOException {
+        Properties properties = new Properties();
+        for (TextField textField : textFieldProperties.keySet()) {
+            TextFieldData<Integer> valueConfig = textFieldProperties.get(textField);
+            properties.setProperty(valueConfig.propertyName, textField.getText());
+        }
+        properties.setProperty("mapVariant", mapVariantInput.getValue().name());
+        properties.setProperty("plantGrowthVariant", plantGrowthVariantInput.getValue().name());
+        properties.setProperty("mutationVariant", mutationVariantInput.getValue().name());
+        properties.setProperty("behaviorVariant", behaviorVariantInput.getValue().name());
+        properties.store(new FileOutputStream(file), null);
+    }
+
+    private MapConfig getMapConfig() {
         return new MapConfig(
                 Integer.parseInt(mapWidthInput.getText()),
                 Integer.parseInt(mapHeightInput.getText()),
@@ -165,20 +241,6 @@ public class SimulationSetupPresenter {
         );
     }
 
-    private File chooseFile() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Configuration File");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("properties", "*.properties"));
-        return fileChooser.showOpenDialog(simulationSetupPane.getScene().getWindow());
-    }
-
-    private File saveFile() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save Configuration File");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("properties", "*.properties"));
-        return fileChooser.showSaveDialog(simulationSetupPane.getScene().getWindow());
-    }
-
     public void onStart() {
         MapConfig mapConfig = getMapConfig();
         System.out.println(mapConfig);
@@ -196,47 +258,32 @@ public class SimulationSetupPresenter {
     }
 
     public void onImportConfig() {
-        // https://docs.oracle.com/javafx/2/ui_controls/file-chooser.htm
-        File file = chooseFile();
+        File file = chooseLoadFile();
         if (file == null) return;
         try {
+            problemLabel.setTextFill(Color.BLACK);
+            problemLabel.setText("Loaded config file: " + file.getName());
             loadConfig(file);
         } catch (IOException e) {
+            problemLabel.setTextFill(Color.RED);
+            problemLabel.setText("Failed to load config file.");
             System.out.println("Failed to load config file.");
             e.printStackTrace();
         }
     }
 
     public void onExportConfig() {
-        File file = saveFile();
+        File file = chooseSaveFile();
         if (file == null) return;
         try {
+            problemLabel.setTextFill(Color.BLACK);
+            problemLabel.setText("Exported config file: " + file.getName());
             saveConfig(file);
         } catch (IOException e) {
-            System.out.println("Failed to save config file.");
+            problemLabel.setTextFill(Color.RED);
+            problemLabel.setText("Failed to export config file.");
+            System.out.println("Failed to export config file.");
             e.printStackTrace();
         }
     }
-
-    private void saveConfig(File file) throws IOException {  // TODO: validate input
-        Properties properties = new Properties();
-        properties.setProperty("mapWidth", mapWidthInput.getText());
-        properties.setProperty("mapHeight", mapHeightInput.getText());
-        properties.setProperty("mapVariant", mapVariantInput.getValue().name());
-        properties.setProperty("initialNumberOfPlants", initialNumberOfPlantsInput.getText());
-        properties.setProperty("energyPerPlant", energyPerPlantInput.getText());
-        properties.setProperty("newPlantsPerDay", newPlantsPerDayInput.getText());
-        properties.setProperty("plantGrowthVariant", plantGrowthVariantInput.getValue().name());
-        properties.setProperty("initialNumberOfAnimals", initialNumberOfAnimalsInput.getText());
-        properties.setProperty("initialEnergyOfAnimal", initialEnergyOfAnimalInput.getText());
-        properties.setProperty("wellFedEnergy", wellFedEnergyInput.getText());
-        properties.setProperty("reproductionEnergy", reproductionEnergyInput.getText());
-        properties.setProperty("minNumberOfMutations", minNumberOfMutationsInput.getText());
-        properties.setProperty("maxNumberOfMutations", maxNumberOfMutationsInput.getText());
-        properties.setProperty("mutationVariant", mutationVariantInput.getValue().name());
-        properties.setProperty("lenOfGenome", lenOfGenomeInput.getText());
-        properties.setProperty("behaviorVariant", behaviorVariantInput.getValue().name());
-        properties.store(new FileOutputStream(file), null);
-    }
-
 }
