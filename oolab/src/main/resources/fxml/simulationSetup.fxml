@@ -7,6 +7,7 @@
 
 <ScrollPane minHeight="144" minWidth="240" stylesheets="@/css/simulationSetup.css"
             xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="simulationSetupPane"
             fx:controller="agh.ics.oop.presenter.SimulationSetupPresenter">
 
     <VBox styleClass="main-vbox">
@@ -87,7 +88,6 @@
             </VBox.margin>
         </HBox>
 
-
         <HBox alignment="CENTER_RIGHT">
             <HBox alignment="CENTER_RIGHT">
                 <Label text="Initial number of plants">
@@ -107,7 +107,6 @@
             </VBox.margin>
         </HBox>
 
-
         <HBox alignment="CENTER_RIGHT">
             <HBox alignment="CENTER_RIGHT">
                 <Label text="Energy per plant">
@@ -126,7 +125,6 @@
                 <Insets bottom="5.0" top="5.0"/>
             </VBox.margin>
         </HBox>
-
 
         <HBox alignment="CENTER_RIGHT">
             <HBox alignment="CENTER_RIGHT">
@@ -308,7 +306,7 @@
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="lenOfGenomInput"/>
+                <TextField fx:id="lenOfGenomeInput"/>
                 <HBox.margin>
                     <Insets left="10.0"/>
                 </HBox.margin>
@@ -350,7 +348,7 @@
                         <Insets left="5.0" right="5.0"/>
                     </HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#onClear" text="Clear">
+                <Button mnemonicParsing="false" onAction="#onDefaults" text="Reset to defaults">
                     <HBox.margin>
                         <Insets left="5.0" right="5.0"/>
                     </HBox.margin>
