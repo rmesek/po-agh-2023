@@ -111,6 +111,25 @@ public class SimulationSetupPresenter {
 
         onDefaults();
         setupValidators();
+        // minNumberOfMutationsInput <= maxNumberOfMutationsInput
+        minNumberOfMutationsInput.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue) {
+                if (isValidInt(minNumberOfMutationsInput.getText(), TextFieldsConfig.MIN_NUMBER_OF_MUTATIONS)
+                        && isValidInt(maxNumberOfMutationsInput.getText(), TextFieldsConfig.MAX_NUMBER_OF_MUTATIONS)
+                        && parseInt(minNumberOfMutationsInput.getText()) > parseInt(maxNumberOfMutationsInput.getText())) {
+                    maxNumberOfMutationsInput.setText(minNumberOfMutationsInput.getText());
+                }
+            }
+        });
+        maxNumberOfMutationsInput.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue) {
+                if (isValidInt(maxNumberOfMutationsInput.getText(), TextFieldsConfig.MAX_NUMBER_OF_MUTATIONS)
+                        && isValidInt(minNumberOfMutationsInput.getText(), TextFieldsConfig.MIN_NUMBER_OF_MUTATIONS)
+                        && parseInt(maxNumberOfMutationsInput.getText()) < parseInt(minNumberOfMutationsInput.getText())) {
+                    minNumberOfMutationsInput.setText(maxNumberOfMutationsInput.getText());
+                }
+            }
+        });
     }
 
     private void setupValidators() {
@@ -195,6 +214,9 @@ public class SimulationSetupPresenter {
             }
             textField.setText(property);
         }
+        if (parseInt(minNumberOfMutationsInput.getText()) > parseInt(maxNumberOfMutationsInput.getText())) {
+            throw new IllegalArgumentException("minNumberOfMutationsInput > maxNumberOfMutationsInput");
+        }
         mapVariantInput.setValue(MapVariant.valueOf(properties.getProperty("mapVariant")));
         plantGrowthVariantInput.setValue(PlantGrowthVariant.valueOf(properties.getProperty("plantGrowthVariant")));
         mutationVariantInput.setValue(MutationVariant.valueOf(properties.getProperty("mutationVariant")));
@@ -268,6 +290,7 @@ public class SimulationSetupPresenter {
             problemLabel.setText("Loaded config file: " + file.getName());
             loadConfig(file);
         } catch (IOException e) {
+            onDefaults();
             problemLabel.setTextFill(Color.RED);
             problemLabel.setText("Failed to load config file.");
             System.out.println("Failed to load config file.");
