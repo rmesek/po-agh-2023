@@ -1,5 +1,7 @@
 package agh.ics.oop.presenter;
 
+import agh.ics.oop.SimulationRuntime;
+import agh.ics.oop.SimulationSetup;
 import agh.ics.oop.model.MapConfig;
 import agh.ics.oop.util.BehaviorVariant;
 import agh.ics.oop.util.MapVariant;
@@ -17,10 +19,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
 
 import static java.lang.Integer.parseInt;
 
 public class SimulationSetupPresenter {
+    private final ExecutorService executorService;
     private static final String DEFAULT_PROPERTIES_PATH = "default.properties";
     private final Hashtable<TextField, TextFieldData<Integer>> textFieldProperties = new Hashtable<>();
     private int invalidFields = 0;
@@ -80,6 +84,10 @@ public class SimulationSetupPresenter {
 
     @FXML
     private ComboBox<BehaviorVariant> behaviorVariantInput;
+
+    public SimulationSetupPresenter() {
+        this.executorService = SimulationSetup.getExecutorService();
+    }
 
     @FXML
     private void initialize() {
@@ -241,11 +249,6 @@ public class SimulationSetupPresenter {
         );
     }
 
-    public void onStart() {
-        MapConfig mapConfig = getMapConfig();
-        System.out.println(mapConfig);
-    }
-
     public void onDefaults() {
         // Load default config
         try {
@@ -285,5 +288,11 @@ public class SimulationSetupPresenter {
             System.out.println("Failed to export config file.");
             e.printStackTrace();
         }
+    }
+
+    public void onStart() {
+        MapConfig mapConfig = getMapConfig();
+        SimulationRuntime simulationRuntime = new SimulationRuntime(mapConfig);
+        executorService.execute(simulationRuntime);
     }
 }
