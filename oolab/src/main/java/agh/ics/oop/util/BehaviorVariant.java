@@ -1,7 +1,7 @@
 package agh.ics.oop.util;
 
 public enum BehaviorVariant {
-    COMPLETE_PREDESTINATION;
+    COMPLETE_PREDESTINATION; // po co enum z jedną wartością?
 
     @Override
     public String toString() {

@@ -1,4 +1,4 @@
-package agh.ics.oop.model;
+package agh.ics.oop.model;  // mało trochę w tym modelu
 
 import agh.ics.oop.util.BehaviorVariant;
 import agh.ics.oop.util.MapVariant;

@@ -1,7 +1,7 @@
 package agh.ics.oop.presenter;
 
-public class MapConfigLimits {
-    public ConfigLimit<Integer> mapWidth = new ConfigLimit<>(1, 10);
+public class MapConfigLimits { // czy ta klasa jest używana?
+    public ConfigLimit<Integer> mapWidth = new ConfigLimit<>(1, 10); // 10?
     public ConfigLimit<Integer> mapHeight = new ConfigLimit<>(1, 10);
     public ConfigLimit<Integer> initialNumberOfPlants = new ConfigLimit<>(1, 10);
     public ConfigLimit<Integer> energyPerPlant = new ConfigLimit<>(1, 10);

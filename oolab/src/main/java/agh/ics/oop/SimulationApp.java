@@ -34,7 +34,7 @@ public class SimulationApp extends Application {
     }
 
     @Override
-    public void stop() throws Exception {
+    public void stop() throws Exception { // Exception? czy ta metoda w ogóle jest potrzebna?
         super.stop();
         System.exit(0);
     }
