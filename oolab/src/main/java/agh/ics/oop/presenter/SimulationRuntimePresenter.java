@@ -3,9 +3,14 @@ package agh.ics.oop.presenter;
 import agh.ics.oop.model.MapConfig;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
 
 public class SimulationRuntimePresenter {
-    // private MapConfig mapConfig;
+    @FXML
+    private MapConfig mapConfig;
+    @FXML
+    private Label mapConfigLabel;
     @FXML
     private Label threadLabel;
     @FXML
@@ -13,11 +18,16 @@ public class SimulationRuntimePresenter {
 
     @FXML
     private void initialize() {
+
     }
 
     public void setMapConfig(MapConfig mapConfig) {
-        // this.mapConfig = mapConfig;
-        mainLabel.setText(mapConfig.toString());
+//        this.mapConfig = mapConfig;
+//        mapConfigLabel.setText(mapConfig.toString());
+    }
+
+    public void setRealTime(String realTime) {
+        mainLabel.setText(realTime);
     }
 
 

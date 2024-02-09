@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.VBox?>
-<ScrollPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="agh.ics.oop.presenter.SimulationRuntimePresenter"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-    <VBox>
-        <Label fx:id="mainLabel" text="Simulation runtime"/>
-        <Label fx:id="threadLabel" text="Thread:"/>
-    </VBox>
-
-
-</ScrollPane>
+<SplitPane dividerPositions="0.7" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.presenter.SimulationRuntimePresenter">
+   <items>
+      <SplitPane dividerPositions="0.3" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <items>
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+               <content>
+                  <Accordion>
+                    <panes>
+                      <TitledPane animated="false" text="Thread">
+                           <content>
+                              <Label alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" text="THREAD HERE" />
+                           </content>
+                        </TitledPane>
+                      <TitledPane animated="false" text="Time">
+                           <content>
+                              <Label alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" text="TIME HERE" />
+                           </content>
+                        </TitledPane>
+                    </panes>
+                  </Accordion>
+               </content></ScrollPane>
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="313.0">
+               <content>
+                  <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="292.0" text="MAP HERE" />
+               </content></ScrollPane>
+         </items>
+      </SplitPane>
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+         <content>
+            <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="116.0" prefWidth="597.0" text="GRAPH WITH INFO HERE" />
+         </content></ScrollPane>
+   </items>
+</SplitPane>
