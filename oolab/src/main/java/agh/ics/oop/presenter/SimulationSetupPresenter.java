@@ -314,6 +314,10 @@ public class SimulationSetupPresenter {
     }
 
     public void onStart() {
+        startNewSimulationWindow();
+    }
+
+    private void startNewSimulationWindow() {
         MapConfig mapConfig = getMapConfig();
         SimulationRuntime simulationRuntime = new SimulationRuntime(mapConfig);
         executorService.execute(simulationRuntime);
