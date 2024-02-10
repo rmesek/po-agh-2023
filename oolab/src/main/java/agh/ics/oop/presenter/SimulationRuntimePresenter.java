@@ -14,7 +14,7 @@ public class SimulationRuntimePresenter {
     @FXML
     private Label threadLabel;
     @FXML
-    private Label mainLabel;
+    private Label timeLabel;
 
     @FXML
     private void initialize() {
@@ -27,7 +27,7 @@ public class SimulationRuntimePresenter {
     }
 
     public void setRealTime(String realTime) {
-        mainLabel.setText(realTime);
+        timeLabel.setText(realTime);
     }
 
 

@@ -36,7 +36,7 @@ public class SimulationRuntime implements Runnable {
             var viewRoot = loader.load();
             presenter = loader.getController();
             presenter.setMapConfig(mapConfig);
-//            presenter.setThread(thread);
+            presenter.setThread(thread);
             var scene = new Scene((Region) viewRoot);
             var primaryStage = new Stage();
             primaryStage.setScene(scene);
