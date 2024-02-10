@@ -25,8 +25,7 @@ public class SimulationSetup extends Application {
     }
 
     public void start(Stage primaryStage) throws IOException {
-        var loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource(SIMULATION_SETUP_FXML_PATH));
+        var loader = new FXMLLoader(getClass().getClassLoader().getResource(SIMULATION_SETUP_FXML_PATH));
         ScrollPane viewRoot = loader.load();
         var scene = new Scene(viewRoot);
 
