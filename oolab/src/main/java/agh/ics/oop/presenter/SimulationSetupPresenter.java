@@ -27,6 +27,8 @@ public class SimulationSetupPresenter {
     private final ExecutorService executorService;
     private static final String DEFAULT_PROPERTIES_PATH = "default.properties";
     private final Hashtable<TextField, TextFieldData<Integer>> textFieldProperties = new Hashtable<>();
+    @FXML
+    private CheckBox logToFile;
     private int invalidFields = 0;
     @FXML
     private Label problemLabel;
@@ -314,7 +316,14 @@ public class SimulationSetupPresenter {
     }
 
     public void onStart() {
+        if (logToFile.isSelected()) {
+            setupFileLogging();
+        }
         startNewSimulationWindow();
+    }
+
+    private void setupFileLogging() {
+        System.out.println("Logging to file is not implemented yet.");
     }
 
     private void startNewSimulationWindow() {

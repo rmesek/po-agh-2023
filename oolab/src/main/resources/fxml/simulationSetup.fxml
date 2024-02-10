@@ -5,28 +5,25 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<ScrollPane minHeight="144" minWidth="240" stylesheets="@/css/simulationSetup.css"
-            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="simulationSetupPane"
-            fx:controller="agh.ics.oop.presenter.SimulationSetupPresenter">
+<ScrollPane fx:id="simulationSetupPane" minHeight="144" minWidth="240" stylesheets="@/css/simulationSetup.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.presenter.SimulationSetupPresenter">
 
     <VBox styleClass="main-vbox">
         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
         </padding>
 
         <!--        Title Box -->
         <HBox alignment="CENTER">
             <Label alignment="CENTER" text="Configure Simulation" textAlignment="CENTER">
                 <font>
-                    <Font size="22.0"/>
+                    <Font size="22.0" />
                 </font>
                 <HBox.margin>
-                    <Insets bottom="10.0"/>
+                    <Insets bottom="10.0" />
                 </HBox.margin>
             </Label>
             <VBox.margin>
-                <Insets/>
+                <Insets />
             </VBox.margin>
         </HBox>
 
@@ -36,17 +33,17 @@
                 <Label text="Map width">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="mapWidthInput"/>
+                <TextField fx:id="mapWidthInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -55,17 +52,17 @@
                 <Label text="Map height">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="mapHeightInput"/>
+                <TextField fx:id="mapHeightInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -74,17 +71,17 @@
                 <Label text="Map variant">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <ComboBox fx:id="mapVariantInput"/>
+                <ComboBox fx:id="mapVariantInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -93,17 +90,17 @@
                 <Label text="Initial number of plants">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="initialNumberOfPlantsInput"/>
+                <TextField fx:id="initialNumberOfPlantsInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -112,17 +109,17 @@
                 <Label text="Energy per plant">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="energyPerPlantInput"/>
+                <TextField fx:id="energyPerPlantInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -131,17 +128,17 @@
                 <Label text="New plants per day">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="newPlantsPerDayInput"/>
+                <TextField fx:id="newPlantsPerDayInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -150,17 +147,17 @@
                 <Label text="Plant Growth Variant">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <ComboBox fx:id="plantGrowthVariantInput"/>
+                <ComboBox fx:id="plantGrowthVariantInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -169,17 +166,17 @@
                 <Label text="Initial number of animals">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="initialNumberOfAnimalsInput"/>
+                <TextField fx:id="initialNumberOfAnimalsInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -188,17 +185,17 @@
                 <Label text="Initial energy of animal">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="initialEnergyOfAnimalInput"/>
+                <TextField fx:id="initialEnergyOfAnimalInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -207,17 +204,17 @@
                 <Label text="Well fed energy">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="wellFedEnergyInput"/>
+                <TextField fx:id="wellFedEnergyInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -226,17 +223,17 @@
                 <Label text="Reproduction energy">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="reproductionEnergyInput"/>
+                <TextField fx:id="reproductionEnergyInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -245,17 +242,17 @@
                 <Label text="Minimum number of mutations">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="minNumberOfMutationsInput"/>
+                <TextField fx:id="minNumberOfMutationsInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -264,17 +261,17 @@
                 <Label text="Maximum number of mutations">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="maxNumberOfMutationsInput"/>
+                <TextField fx:id="maxNumberOfMutationsInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -283,17 +280,17 @@
                 <Label text="Mutation variant">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <ComboBox fx:id="mutationVariantInput"/>
+                <ComboBox fx:id="mutationVariantInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -302,17 +299,17 @@
                 <Label text="Length of genome">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <TextField fx:id="lenOfGenomeInput"/>
+                <TextField fx:id="lenOfGenomeInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -321,17 +318,17 @@
                 <Label text="Behavior variant">
                 </Label>
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </HBox>
             <HBox alignment="CENTER_LEFT">
-                <ComboBox fx:id="behaviorVariantInput"/>
+                <ComboBox fx:id="behaviorVariantInput" />
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </HBox>
             <VBox.margin>
-                <Insets bottom="5.0" top="5.0"/>
+                <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </HBox>
 
@@ -340,7 +337,7 @@
             <Label fx:id="problemLabel">
             </Label>
             <VBox.margin>
-                <Insets bottom="10.0" top="10.0"/>
+                <Insets bottom="10.0" top="10.0" />
             </VBox.margin>
         </HBox>
 
@@ -349,34 +346,40 @@
         <!--        Buttons Box -->
         <VBox alignment="CENTER" styleClass="button-box">
             <VBox.margin>
-                <Insets top="10.0"/>
+                <Insets top="10.0" />
             </VBox.margin>
 
+
+            <CheckBox fx:id="logToFile" text="Log to file?">
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin></CheckBox>
+
             <HBox alignment="CENTER">
-                <Button mnemonicParsing="false" onAction="#onStart" fx:id="startButton" text="Start simulation">
+                <Button fx:id="startButton" mnemonicParsing="false" onAction="#onStart" text="Start simulation">
                     <HBox.margin>
-                        <Insets left="5.0" right="5.0"/>
+                        <Insets left="5.0" right="5.0" />
                     </HBox.margin>
                 </Button>
                 <Button mnemonicParsing="false" onAction="#onDefaults" text="Reset to defaults">
                     <HBox.margin>
-                        <Insets left="5.0" right="5.0"/>
+                        <Insets left="5.0" right="5.0" />
                     </HBox.margin>
                 </Button>
                 <VBox.margin>
-                    <Insets bottom="10.0"/>
+                    <Insets bottom="10.0" />
                 </VBox.margin>
             </HBox>
 
             <HBox alignment="CENTER">
                 <Button mnemonicParsing="false" onAction="#onImportConfig" text="Import configuration">
                     <HBox.margin>
-                        <Insets left="5.0" right="5.0"/>
+                        <Insets left="5.0" right="5.0" />
                     </HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#onExportConfig" fx:id="exportButton" text="Export configuration">
+                <Button fx:id="exportButton" mnemonicParsing="false" onAction="#onExportConfig" text="Export configuration">
                     <HBox.margin>
-                        <Insets left="5.0" right="5.0"/>
+                        <Insets left="5.0" right="5.0" />
                     </HBox.margin>
                 </Button>
             </HBox>
