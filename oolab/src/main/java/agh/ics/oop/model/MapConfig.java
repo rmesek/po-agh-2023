@@ -5,6 +5,8 @@ import agh.ics.oop.util.MapVariant;
 import agh.ics.oop.util.MutationVariant;
 import agh.ics.oop.util.PlantGrowthVariant;
 
+import java.io.File;
+
 public record MapConfig(
         int mapWidth,
         int mapHeight,
@@ -21,6 +23,7 @@ public record MapConfig(
         int maxNumberOfMutations,
         MutationVariant mutationVariant,
         int lenOfGenome,
-        BehaviorVariant behaviorVariant
+        BehaviorVariant behaviorVariant,
+        File logFile
 ) {
 }

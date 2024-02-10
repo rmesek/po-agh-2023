@@ -12,10 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Properties;
@@ -27,6 +24,7 @@ public class SimulationSetupPresenter {
     private final ExecutorService executorService;
     private static final String DEFAULT_PROPERTIES_PATH = "default.properties";
     private final Hashtable<TextField, TextFieldData<Integer>> textFieldProperties = new Hashtable<>();
+    private File logFile = null;
     @FXML
     private CheckBox logToFile;
     private int invalidFields = 0;
@@ -269,7 +267,8 @@ public class SimulationSetupPresenter {
                 Integer.parseInt(maxNumberOfMutationsInput.getText()),
                 mutationVariantInput.getValue(),
                 Integer.parseInt(lenOfGenomeInput.getText()),
-                behaviorVariantInput.getValue()
+                behaviorVariantInput.getValue(),
+                logFile
         );
     }
 
@@ -315,15 +314,25 @@ public class SimulationSetupPresenter {
         }
     }
 
-    public void onStart() {
+    public void onStart() throws FileNotFoundException {
         if (logToFile.isSelected()) {
             setupFileLogging();
         }
         startNewSimulationWindow();
+        this.logFile = null;
     }
 
-    private void setupFileLogging() {
-        System.out.println("Logging to file is not implemented yet.");
+    private void setupFileLogging() throws FileNotFoundException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose log file");
+        fileChooser.setInitialFileName("log-" + System.currentTimeMillis() + ".log");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("log", "*.log"));
+        File logFile =  fileChooser.showSaveDialog(simulationSetupPane.getScene().getWindow());
+        if (logFile == null) {
+            throw new FileNotFoundException("No file selected.");
+        }
+        System.out.println("Logging to file: " + logFile.getName());
+        this.logFile = logFile;
     }
 
     private void startNewSimulationWindow() {
