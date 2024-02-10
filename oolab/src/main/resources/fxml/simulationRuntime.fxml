@@ -9,30 +9,28 @@
          <items>
             <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
                <content>
-                  <Accordion>
-                    <panes>
-                      <TitledPane animated="false" text="Thread">
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <TitledPane animated="false" text="Thread">
                            <content>
-                              <Label alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" text="THREAD HERE" />
-                           </content>
-                        </TitledPane>
-                      <TitledPane animated="false" text="Time">
+                              <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="THREAD HERE" />
+                           </content></TitledPane>
+                        <TitledPane animated="false" text="Time">
                            <content>
-                              <Label alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" text="TIME HERE" />
-                           </content>
-                        </TitledPane>
-                    </panes>
-                  </Accordion>
+                              <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="TIME HERE" />
+                           </content></TitledPane>
+                     </children>
+                  </VBox>
                </content></ScrollPane>
             <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="313.0">
                <content>
-                  <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="292.0" text="MAP HERE" />
+                  <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="MAP HERE" />
                </content></ScrollPane>
          </items>
       </SplitPane>
-      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <content>
-            <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="116.0" prefWidth="597.0" text="GRAPH WITH INFO HERE" />
+            <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="GRAPH AND STATS HERE" />
          </content></ScrollPane>
    </items>
 </SplitPane>
