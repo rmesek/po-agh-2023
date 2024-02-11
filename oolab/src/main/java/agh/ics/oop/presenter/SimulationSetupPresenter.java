@@ -15,7 +15,6 @@ import javafx.stage.FileChooser;
 import java.io.*;
 import java.net.URL;
 import java.util.Hashtable;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 
@@ -114,7 +113,7 @@ public class SimulationSetupPresenter {
         setupValidators();
         // minNumberOfMutationsInput <= maxNumberOfMutationsInput
         minNumberOfMutationsInput.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
+            if(!newValue) {
                 if (isValidInt(minNumberOfMutationsInput.getText(), TextFieldsConfig.MIN_NUMBER_OF_MUTATIONS)
                         && isValidInt(maxNumberOfMutationsInput.getText(), TextFieldsConfig.MAX_NUMBER_OF_MUTATIONS)
                         && parseInt(minNumberOfMutationsInput.getText()) > parseInt(maxNumberOfMutationsInput.getText())) {
@@ -123,7 +122,7 @@ public class SimulationSetupPresenter {
             }
         });
         maxNumberOfMutationsInput.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
+            if(!newValue) {
                 if (isValidInt(maxNumberOfMutationsInput.getText(), TextFieldsConfig.MAX_NUMBER_OF_MUTATIONS)
                         && isValidInt(minNumberOfMutationsInput.getText(), TextFieldsConfig.MIN_NUMBER_OF_MUTATIONS)
                         && parseInt(maxNumberOfMutationsInput.getText()) < parseInt(minNumberOfMutationsInput.getText())) {
@@ -142,22 +141,37 @@ public class SimulationSetupPresenter {
 
     private void setupIntValidator(TextField textField, TextFieldData<Integer> valueConfig) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            boolean newValueIsValid = isValidInt(newValue, valueConfig);
-            boolean oldValueIsValid = isValidInt(oldValue, valueConfig);
-
-            textField.setStyle(newValueIsValid ? null : "-fx-background-color: #ff6464");
-            if (newValueIsValid != oldValueIsValid) {
-                invalidFields += newValueIsValid ? -1 : 1;
-                problemLabel.setTextFill(newValueIsValid ? Color.BLACK : Color.RED);
-                startButton.setDisable(invalidFields != 0);
+            // set textField color to red if input is invalid
+            if (!isValidInt(newValue, valueConfig)) {
+                textField.setStyle("-fx-background-color: #ff6464");
+                if (isValidInt(oldValue, valueConfig)) {
+                    invalidFields++;
+                    startButton.disableProperty().setValue(true);
+                    problemLabel.setTextFill(Color.RED);
+                }
+            } else {
+                // clear style
+                textField.setStyle(null);
+                if (!isValidInt(oldValue, valueConfig)) {
+                    invalidFields--;
+                    problemLabel.setTextFill(Color.BLACK);
+                    if (invalidFields == 0) {
+                        startButton.disableProperty().setValue(false);
+                    }
+                }
             }
         });
 
         textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            problemLabel.setText(newValue && !isValidInt(textField.getText(), valueConfig)
-                    ? textField.getId() + " [" + valueConfig.min + ", " + valueConfig.max + "]"
-                    : "");
-            problemLabel.setTextFill(newValue && !isValidInt(textField.getText(), valueConfig) ? Color.RED : Color.BLACK);
+            if (newValue) {
+                if (!isValidInt(textField.getText(), valueConfig)) {
+                    problemLabel.setTextFill(Color.RED);
+                }
+                problemLabel.setText(textField.getId() + " [" + valueConfig.min + ", " + valueConfig.max + "]");
+            } else {
+                problemLabel.setTextFill(Color.BLACK);
+                problemLabel.setText("");
+            }
         });
     }
 
@@ -165,15 +179,17 @@ public class SimulationSetupPresenter {
         int intValue;
         try {
             intValue = parseInt(value);
-            return intValue >= limit.min && intValue <= limit.max;
         } catch (NumberFormatException e) {
             return false;
         }
+        return intValue >= limit.min && intValue <= limit.max;
     }
 
     private File getDefaultProperties() throws IOException {
-        URL defaultProperties = Optional.ofNullable(getClass().getClassLoader().getResource(DEFAULT_PROPERTIES_PATH))
-                .orElseThrow(() -> new IOException("Failed to load default properties file."));
+        URL defaultProperties = getClass().getClassLoader().getResource(DEFAULT_PROPERTIES_PATH);
+        if (defaultProperties == null) {
+            throw new IOException("Failed to load default properties file.");
+        }
         return new File(defaultProperties.getFile());
     }
 
@@ -189,7 +205,7 @@ public class SimulationSetupPresenter {
         }
     }
 
-    private void parseProperties(Properties properties) throws IllegalArgumentException {
+    private void parseProperties(Properties properties) throws IllegalArgumentException, NullPointerException {
         for (TextField textField : textFieldProperties.keySet()) {
             TextFieldData<Integer> valueConfig = textFieldProperties.get(textField);
             String property = properties.getProperty(valueConfig.propertyName);
@@ -198,17 +214,9 @@ public class SimulationSetupPresenter {
             }
             textField.setText(property);
         }
-        validateMutationInputs();
-        setComboBoxValues(properties);
-    }
-
-    private void validateMutationInputs() throws IllegalArgumentException {
         if (parseInt(minNumberOfMutationsInput.getText()) > parseInt(maxNumberOfMutationsInput.getText())) {
             throw new IllegalArgumentException("minNumberOfMutationsInput > maxNumberOfMutationsInput");
         }
-    }
-
-    private void setComboBoxValues(Properties properties) {
         mapVariantInput.setValue(MapVariant.valueOf(properties.getProperty("mapVariant")));
         plantGrowthVariantInput.setValue(PlantGrowthVariant.valueOf(properties.getProperty("plantGrowthVariant")));
         mutationVariantInput.setValue(MutationVariant.valueOf(properties.getProperty("mutationVariant")));
