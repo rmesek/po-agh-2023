@@ -64,15 +64,19 @@ public class SimulationSetup extends Application {
                 }
             });
         } else {
-            executorService.shutdownNow();
             Platform.exit();
         }
     }
 
     @Override
-    public void stop() throws Exception {
-        super.stop();
-        System.exit(0);
+    public void stop() {
+        System.out.println("Closing the application");
+        executorService.shutdownNow();
+        try {
+            super.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static ExecutorService getExecutorService() {
