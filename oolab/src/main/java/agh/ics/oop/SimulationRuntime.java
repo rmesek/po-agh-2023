@@ -21,7 +21,7 @@ public class SimulationRuntime implements Runnable {
     private int simulationRuntimeId;
     private final MapConfig mapConfig;
     private Thread thread;
-    private  SimulationRuntimePresenter presenter;
+    private SimulationRuntimePresenter presenter;
     private String realTime;
 
     public SimulationRuntime(MapConfig mapConfig) {
@@ -31,18 +31,17 @@ public class SimulationRuntime implements Runnable {
     // Runs in JavaFX Application Thread!
     private void start() {
         try {
-            var loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource(SIMULATION_RUNTIME_FXML_PATH));
+            var loader = new FXMLLoader(getClass().getClassLoader().getResource(SIMULATION_RUNTIME_FXML_PATH));
             var viewRoot = loader.load();
             presenter = loader.getController();
-            presenter.setMapConfig(mapConfig);
             presenter.setThread(thread);
+            presenter.setMapConfig(mapConfig);
             var scene = new Scene((Region) viewRoot);
             var primaryStage = new Stage();
             primaryStage.setScene(scene);
             primaryStage.setTitle(WINDOW_TITLE + " " + simulationRuntimeCounter);
-            primaryStage.show();
             primaryStage.setOnCloseRequest(this::handleCloseRequest);
+            primaryStage.show();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -59,7 +58,7 @@ public class SimulationRuntime implements Runnable {
     }
 
     public String getRealTime() { // TODO: delete later
-        return "Thread" + Thread.currentThread().getName() + " Real time: " + System.currentTimeMillis()/1000;
+        return "Thread" + Thread.currentThread().getName() + " Real time: " + System.currentTimeMillis() / 1000;
     }
 
     public void runTimer() throws InterruptedException {

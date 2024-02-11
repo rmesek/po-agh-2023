@@ -3,38 +3,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.7" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.presenter.SimulationRuntimePresenter">
-   <items>
-      <SplitPane dividerPositions="0.3" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-         <items>
-            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
-               <content>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <TitledPane animated="false" collapsible="false" text="Controls">
-                           <content>
-                              <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="CONTROLS HERE" />
-                           </content></TitledPane>
-                        <TitledPane animated="false" text="Thread">
-                           <content>
-                              <Label fx:id="threadLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="THREAD HERE" />
-                           </content></TitledPane>
-                        <TitledPane animated="false" text="Time">
-                           <content>
-                              <Label fx:id="timeLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="TIME HERE" />
-                           </content></TitledPane>
-                     </children>
-                  </VBox>
-               </content></ScrollPane>
-            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="313.0">
-               <content>
-                  <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="MAP HERE" />
-               </content></ScrollPane>
-         </items>
-      </SplitPane>
-      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-         <content>
-            <Label fx:id="graphLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="GRAPH AND STATS HERE" />
-         </content></ScrollPane>
-   </items>
+<SplitPane dividerPositions="0.7" orientation="VERTICAL" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.presenter.SimulationRuntimePresenter">
+   <SplitPane dividerPositions="0.3" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+         <VBox prefHeight="200.0" prefWidth="100.0">
+            <TitledPane animated="false" collapsible="false" text="Controls">
+               <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="CONTROLS HERE" />
+            </TitledPane>
+            <TitledPane animated="false" text="Time">
+               <Label fx:id="timeLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="TIME HERE" />
+            </TitledPane>
+            <TitledPane alignment="TOP_LEFT" animated="false" expanded="false" text="Configuration">
+                  <VBox fx:id="configVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
+            </TitledPane>
+         </VBox>
+      </ScrollPane>
+
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="313.0">
+         <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="MAP HERE" />
+      </ScrollPane>
+   </SplitPane>
+   <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+      <Label fx:id="graphLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="GRAPH AND STATS HERE" />
+   </ScrollPane>
 </SplitPane>

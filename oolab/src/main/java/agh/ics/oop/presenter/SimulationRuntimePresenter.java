@@ -2,13 +2,18 @@ package agh.ics.oop.presenter;
 
 import agh.ics.oop.model.MapConfig;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
+import java.lang.reflect.Field;
 
 public class SimulationRuntimePresenter {
     @FXML
-    private Label graphLabel;
+    private VBox configVBox;
     @FXML
-    private Label threadLabel;
+    private Label graphLabel;
     @FXML
     private Label timeLabel;
 
@@ -17,16 +22,43 @@ public class SimulationRuntimePresenter {
 
     }
 
+    private void appendConfigInfo(MapConfig mapConfig) {
+        // itareate over the fields of the MapConfig record and add them to the VBox
+        for (Field field : MapConfig.class.getDeclaredFields()) {
+            try {
+                field.setAccessible(true);
+                configVBox.getChildren().add(createHBox(field.getName(), String.valueOf(field.get(mapConfig))));
+            } catch (IllegalAccessException e) {
+                configVBox.getChildren().add(createHBox(field.getName(), ""));
+            }
+            configVBox.getChildren().add(new Separator());
+        }
+    }
+
+    private HBox createHBox(String label, String value) {
+        HBox hBox = new HBox();
+        Label labelControl = new Label(label);
+        Label valueControl = new Label(value);
+
+        // configure the label and value controls look
+        hBox.setPadding(new Insets(5));
+        labelControl.setStyle("-fx-border-width: 0; -fx-padding: 2px");
+        valueControl.setStyle("-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px");
+
+        hBox.getChildren().addAll(labelControl, valueControl);
+        return hBox;
+    }
+
     public void setMapConfig(MapConfig mapConfig) {
-        graphLabel.setText(mapConfig.toString());
+        appendConfigInfo(mapConfig);
     }
 
     public void setRealTime(String realTime) {
         timeLabel.setText(realTime);
     }
 
-
     public void setThread(Thread thread) {
-        threadLabel.setText(thread.getName());
+        configVBox.getChildren().add(createHBox("thread", thread.getName()));
+        configVBox.getChildren().add(new Separator());
     }
 }
