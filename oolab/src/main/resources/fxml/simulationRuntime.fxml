@@ -1,29 +1,336 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.7" orientation="VERTICAL" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.presenter.SimulationRuntimePresenter">
-   <SplitPane dividerPositions="0.3" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
-         <VBox prefHeight="200.0" prefWidth="100.0">
-            <TitledPane animated="false" collapsible="false" text="Controls">
-               <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="CONTROLS HERE" />
-            </TitledPane>
-            <TitledPane animated="false" text="Time">
-               <Label fx:id="timeLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="TIME HERE" />
-            </TitledPane>
-            <TitledPane alignment="TOP_LEFT" animated="false" expanded="false" text="Configuration">
-                  <VBox fx:id="configVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
-            </TitledPane>
-         </VBox>
-      </ScrollPane>
-
-      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="313.0">
-         <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="MAP HERE" />
-      </ScrollPane>
-   </SplitPane>
-   <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-      <Label fx:id="graphLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="GRAPH AND STATS HERE" />
-   </ScrollPane>
+<SplitPane dividerPositions="0.7" orientation="VERTICAL" prefHeight="600.0" prefWidth="1000.0"
+           xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="agh.ics.oop.presenter.SimulationRuntimePresenter">
+    <!-- INFO PANE -->
+    <SplitPane dividerPositions="0.3" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+            <VBox prefHeight="200.0" prefWidth="100.0">
+                <!-- Controls Pane -->
+                <TitledPane animated="false" collapsible="false" text="Controls">
+                    <VBox fx:id="controlsVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                          minHeight="-Infinity" minWidth="-Infinity">
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity" text="Simulation delay:">
+                                <padding>
+                                    <Insets right="5.0"/>
+                                </padding>
+                            </Label>
+                            <Slider fx:id="delaySlider" blockIncrement="50" majorTickUnit="50" max="1000"
+                                    maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                    minHeight="-Infinity" minWidth="-Infinity" minorTickCount="0" showTickLabels="true"
+                                    showTickMarks="true" snapToTicks="true" value="50"/>
+                        </HBox>
+                        <Separator/>
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity" text="Start/Stop simulation:">
+                                <padding>
+                                    <Insets right="5.0"/>
+                                </padding>
+                            </Label>
+                            <ToggleButton fx:id="toggleButton" maxHeight="1.7976931348623157E308"
+                                          maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                                          onAction="#toggleSimulation" text="Start"/>
+                        </HBox>
+                        <Separator/>
+                    </VBox>
+                </TitledPane>
+                <!-- General info -->
+                <TitledPane animated="false" expanded="false" text="General">
+                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+                          minWidth="-Infinity">
+                        <!-- liczby wszystkich zwierzaków -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Animals"/>
+                            <!-- Value -->
+                            <Label fx:id="numberOfAnimals" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- liczby wszystkich roślin -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Plants"/>
+                            <!-- Value -->
+                            <Label fx:id="numberOfPlants" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- liczby wolnych pól -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Free spaces"/>
+                            <!-- Value -->
+                            <Label fx:id="numberOfFreeSpaces" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- najpopularniejszych genotypów -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Most popular genotypes"/>
+                            <!-- Value -->
+                            <Label fx:id="mostPopularGenotypes" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- średniego poziomu energii dla żyjących zwierzaków -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Average energy"/>
+                            <!-- Value -->
+                            <Label fx:id="averageEnergy" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- średniej długości życia zwierzaków dla martwych zwierzaków -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Average lifespan"/>
+                            <!-- Value -->
+                            <Label fx:id="averageLifespan" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- średniej liczby dzieci dla żyjących zwierzaków -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Average descendands for alive"/>
+                            <!-- Value -->
+                            <Label fx:id="averageDescendandsForAlive" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                    </VBox>
+                </TitledPane>
+                <!-- Tracked info -->
+                <TitledPane animated="false" expanded="false" text="Tracked">
+                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+                          minWidth="-Infinity">
+                        <!-- tracked animal -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Tracked animal ID"/>
+                            <!-- Value -->
+                            <TextField fx:id="trackedAnimalID" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- jaki ma genom -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Genotype"/>
+                            <!-- Value -->
+                            <Label fx:id="trackedGenotype" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- która jego część jest aktywowana -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Active genotype"/>
+                            <!-- Value -->
+                            <Label fx:id="trackedActiveGenotype" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- ile ma energii -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Energy"/>
+                            <!-- Value -->
+                            <Label fx:id="trackedEnergy" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- ile zjadł roślin -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Plants eaten"/>
+                            <!-- Value -->
+                            <Label fx:id="trackedPlantsEaten" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- ile posiada dzieci -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Children"/>
+                            <!-- Value -->
+                            <Label fx:id="trackedChildren" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- ile posiada potomków -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Descendands"/>
+                            <!-- Value -->
+                            <Label fx:id="trackedDescendands" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- ile dni już żyje -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Days alive"/>
+                            <!-- Value -->
+                            <Label fx:id="trackedDaysAlive" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                        <!-- którego dnia zmarło -->
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                              style="-fx-padding: 5px">
+                            <!-- Label -->
+                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-width: 0; -fx-padding: 2px"
+                                   text="Day of death"/>
+                            <!-- Value -->
+                            <Label fx:id="trackedDayOfDeath" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   minHeight="-Infinity" minWidth="-Infinity"
+                                   style="-fx-border-color: lightgrey; -fx-border-width: 1; -fx-padding: 2px"
+                                   text="N/A"/>
+                        </HBox>
+                        <Separator/>
+                    </VBox>
+                </TitledPane>
+                <!-- Config info -->
+                <TitledPane alignment="TOP_LEFT" animated="false" expanded="false" text="Configuration">
+                    <VBox fx:id="configVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                          minHeight="-Infinity" minWidth="-Infinity"/>
+                </TitledPane>
+            </VBox>
+        </ScrollPane>
+        <!-- MAP PANE -->
+        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="313.0">
+            <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                   minHeight="-Infinity" minWidth="-Infinity" text="MAP HERE"/>
+        </ScrollPane>
+    </SplitPane>
+    <!-- GRAPH PANE -->
+    <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+        <Label fx:id="graphLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308"
+               maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+               text="GRAPH HERE"/>
+    </ScrollPane>
 </SplitPane>
