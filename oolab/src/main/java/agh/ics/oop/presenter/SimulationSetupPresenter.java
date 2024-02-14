@@ -267,8 +267,7 @@ public class SimulationSetupPresenter {
                 Integer.parseInt(maxNumberOfMutationsInput.getText()),
                 mutationVariantInput.getValue(),
                 Integer.parseInt(lenOfGenomeInput.getText()),
-                behaviorVariantInput.getValue(),
-                logFile
+                behaviorVariantInput.getValue()
         );
     }
 
@@ -342,7 +341,7 @@ public class SimulationSetupPresenter {
 
     private void startNewSimulationWindow() {
         MapConfig mapConfig = getMapConfig();
-        SimulationRuntime simulationRuntime = new SimulationRuntime(mapConfig);
+        SimulationRuntime simulationRuntime = new SimulationRuntime(mapConfig, logFile);
         executorService.execute(simulationRuntime);
     }
 }

@@ -23,7 +23,6 @@ public record MapConfig(
         int maxNumberOfMutations,
         MutationVariant mutationVariant,
         int lenOfGenome,
-        BehaviorVariant behaviorVariant,
-        File logFile
+        BehaviorVariant behaviorVariant
 ) {
 }

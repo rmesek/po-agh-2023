@@ -12,6 +12,8 @@ import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.io.File;
+
 import static java.lang.Thread.sleep;
 
 public class SimulationRuntime implements Runnable {
@@ -20,12 +22,14 @@ public class SimulationRuntime implements Runnable {
     private static int simulationRuntimeCounter = 0;
     private int simulationRuntimeId;
     private final MapConfig mapConfig;
+    private final File logFile;
     private Thread thread;
     private SimulationRuntimePresenter presenter;
     private String realTime;
 
-    public SimulationRuntime(MapConfig mapConfig) {
+    public SimulationRuntime(MapConfig mapConfig, File logFile) {
         this.mapConfig = mapConfig;
+        this.logFile = logFile;
     }
 
     // Runs in JavaFX Application Thread!
@@ -35,6 +39,7 @@ public class SimulationRuntime implements Runnable {
             var viewRoot = loader.load();
             presenter = loader.getController();
             presenter.setThread(thread);
+            presenter.setLogFileInfo(logFile);
             presenter.setMapConfig(mapConfig);
             var scene = new Scene((Region) viewRoot);
             var primaryStage = new Stage();

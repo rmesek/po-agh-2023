@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.File;
 import java.lang.reflect.Field;
 
 public class SimulationRuntimePresenter {
@@ -59,6 +60,11 @@ public class SimulationRuntimePresenter {
 
     public void setThread(Thread thread) {
         configVBox.getChildren().add(createHBox("thread", thread.getName()));
+        configVBox.getChildren().add(new Separator());
+    }
+
+    public void setLogFileInfo(File logFileInfo) {
+        configVBox.getChildren().add(createHBox("logFile", String.valueOf(logFileInfo)));
         configVBox.getChildren().add(new Separator());
     }
 }
