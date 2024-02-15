@@ -102,8 +102,8 @@ public class RuntimeMap {
 
     private void drawAnimal(WorldMap worldMap, int x, int y) {
         List<Animal> animals = worldMap.getAnimalsAt(new Vector2d(x, mapHeight - y - 1));
-        if (animals.isEmpty()) return;
-        Animal animal = animals.stream().filter(Animal::isAlive).max(ANIMAL_COMPARATOR).orElse(animals.get(0));
+        Animal animal = animals.stream().filter(Animal::isAlive).max(ANIMAL_COMPARATOR).orElse(null);
+        if (animal == null) return;
         addAnimal(x, y, animal.getOrientation().toDegrees(), animal.getEnergy() / ANIMAL_GOOD_HEALTH);
     }
 
