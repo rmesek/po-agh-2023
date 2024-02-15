@@ -11,8 +11,8 @@ public class Animal {
     private final int animalId;
     private int energy;
     private final MapConfig mapConfig;
-    private boolean isAlive = true;
     private final List<Integer> genotype;
+    private int activeGenIndex = 0;
 
     public Animal(MapConfig mapConfig, MapDirection initialOrientation, int energy, WorldMap worldMap) {
         this.mapConfig = mapConfig;
@@ -22,6 +22,17 @@ public class Animal {
         this.worldMap = worldMap;
         this.genotype = new ArrayList<>(mapConfig.lenOfGenome());
         prepareGenotype();
+    }
+
+    private void nextGenIndex() {
+        activeGenIndex = (activeGenIndex + 1) % mapConfig.lenOfGenome();
+    }
+
+    public void activateGen() {
+        int gen = genotype.get(activeGenIndex);
+        orientation = orientation.next(gen);
+
+        nextGenIndex();
     }
 
     private void prepareGenotype() {
@@ -44,9 +55,6 @@ public class Animal {
         }
     }
 
-    public void killAnimal() {
-        isAlive = false;
-    }
 
     public Vector2d getPosition() {
         return worldMap.getAnimalPositions().get(this);
@@ -68,8 +76,12 @@ public class Animal {
         return Collections.unmodifiableList(genotype);
     }
 
+    public boolean isAlive() {
+        return energy > 0;
+    }
+
     @Override
     public String toString() {
-        return getPosition().toString() + " " + getOrientation().toString() + (isAlive ? " Alive" : " Dead") + " AnimalId: " + animalId;
+        return getPosition().toString() + " " + getOrientation().toString() + (isAlive() ? " Alive" : " Dead") + " AnimalId: " + animalId;
     }
 }
