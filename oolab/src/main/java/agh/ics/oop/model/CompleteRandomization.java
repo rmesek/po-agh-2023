@@ -7,7 +7,8 @@ public class CompleteRandomization implements Mutation {
     @Override
     public void mutate(MapConfig mapConfig, List<Integer> genotype) {
         Random rand = new Random();
-        for (int i = mapConfig.minNumberOfMutations(); i <= mapConfig.maxNumberOfMutations(); i++) {
+        int numberOfMutations = rand.nextInt(mapConfig.maxNumberOfMutations() - mapConfig.minNumberOfMutations() + 1) + mapConfig.minNumberOfMutations();
+        for (int i = 0; i < numberOfMutations; i++) {
             genotype.set(rand.nextInt(genotype.size()), rand.nextInt(8));
         }
     }

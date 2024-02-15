@@ -1,7 +1,9 @@
 package agh.ics.oop.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Animal {
     private final WorldMap worldMap;
@@ -19,6 +21,14 @@ public class Animal {
         this.energy = energy;
         this.worldMap = worldMap;
         this.genotype = new ArrayList<>(mapConfig.lenOfGenome());
+        prepareGenotype();
+    }
+
+    private void prepareGenotype() {
+        Random rand = new Random();
+        for (int i = 0; i < mapConfig.lenOfGenome(); i++) {
+            genotype.add(i, rand.nextInt(8));
+        }
     }
 
     public void mutate() {
@@ -52,6 +62,10 @@ public class Animal {
 
     public int getEnergy() {
         return energy;
+    }
+
+    public List<Integer> getGenotype() {
+        return Collections.unmodifiableList(genotype);
     }
 
     @Override

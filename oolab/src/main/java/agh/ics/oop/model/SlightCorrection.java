@@ -7,9 +7,11 @@ public class SlightCorrection implements Mutation {
     @Override
     public void mutate(MapConfig mapConfig, List<Integer> genotype) {
         Random rand = new Random();
-        for (int i = mapConfig.minNumberOfMutations(); i <= mapConfig.maxNumberOfMutations(); i++) {
+        int numberOfMutations = rand.nextInt(mapConfig.maxNumberOfMutations() - mapConfig.minNumberOfMutations() + 1) + mapConfig.minNumberOfMutations();
+        for (int i = 0; i < numberOfMutations; i++) {
             int shift = Math.random() > 0.5 ? 1 : 7;
-            genotype.set(rand.nextInt(genotype.size()), (genotype.get(rand.nextInt(genotype.size())) + shift) % 8);
+            int index = rand.nextInt(genotype.size());
+            genotype.set(index, (genotype.get(index) + shift) % 8);
         }
     }
 }
