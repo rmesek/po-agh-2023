@@ -18,7 +18,7 @@ public class RuntimeMap {
     private static final Image ANIMAL_IMAGE = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/animal.png")).toExternalForm());
     private static final Image GRASS_IMAGE = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/grass.png")).toExternalForm());
     private static final Image TRACKED_FIELD = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/trackedField.png")).toExternalForm());
-    private static final Image BEST_FIELD = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/bestField.png")).toExternalForm());
+    private static final Image JUNGLE_FIELD = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/jungleField.png")).toExternalForm());
     private static final Image BEST_GENOTYPE = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/bestGenotype.png")).toExternalForm());
     private static final Image NORMAL_FIELD = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/normalField.png")).toExternalForm());
 
@@ -65,9 +65,9 @@ public class RuntimeMap {
         mapGrid.add(normalImageView, x, y);
     }
 
-    private void addBest(int x, int y) {
-        var bestImageView = new ImageView(BEST_FIELD);
-        mapGrid.add(bestImageView, x, y);
+    private void addJungle(int x, int y) {
+        var jungleImageView = new ImageView(JUNGLE_FIELD);
+        mapGrid.add(jungleImageView, x, y);
     }
 
     private void addBestGenotype(int x, int y) {
