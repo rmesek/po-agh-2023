@@ -28,7 +28,7 @@ public class RuntimeMap {
     private static final Image NORMAL_FIELD = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/normalField.png")).toExternalForm());
 
 
-    public RuntimeMap(int mapWidth, int mapHeight, SimulationEngine simulationEngine) {
+    public RuntimeMap(int mapWidth, int mapHeight) {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
         this.mapGrid = new GridPane();

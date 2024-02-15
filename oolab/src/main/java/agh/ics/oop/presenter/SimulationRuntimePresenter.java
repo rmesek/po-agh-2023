@@ -85,7 +85,7 @@ public class SimulationRuntimePresenter implements DayChangeListener {
     }
 
     private void setMapPane() {
-        runtimeMap = new RuntimeMap(mapConfig.mapWidth(), mapConfig.mapHeight(), simulationRuntime.getSimulationEngine());
+        runtimeMap = new RuntimeMap(mapConfig.mapWidth(), mapConfig.mapHeight());
         mapPane.setContent(runtimeMap.getContent());
     }
 
