@@ -29,6 +29,7 @@ public class SimulationRuntime implements Runnable {
     private final File logFile;
     private Thread thread;
     private SimulationRuntimePresenter simulationRuntimePresenter;
+    private SimulationEngine simulationEngine;
 
     public SimulationRuntime(MapConfig mapConfig, File logFile) {
         this.mapConfig = mapConfig;
@@ -45,6 +46,7 @@ public class SimulationRuntime implements Runnable {
             var loader = new FXMLLoader(getClass().getClassLoader().getResource(SIMULATION_RUNTIME_FXML_PATH));
             var viewRoot = loader.load();
             simulationRuntimePresenter = loader.getController();
+            simulationRuntimePresenter.setSimulationRuntime(this);
             simulationRuntimePresenter.setThread(thread);
             simulationRuntimePresenter.setLogFileInfo(logFile);
             simulationRuntimePresenter.setMapConfig(mapConfig);
@@ -73,10 +75,10 @@ public class SimulationRuntime implements Runnable {
 
         waitForPresenter();
 
-        List<EventListener> eventListeners = new ArrayList<>();
+        List<EventListener> eventListeners = new ArrayList<>(List.of(new ConsoleEventListener()));
         if (logFile != null) eventListeners.add(new FileLogger(logFile));
         List<DayChangeListener> dayChangeListeners = List.of(simulationRuntimePresenter);
-        SimulationEngine simulationEngine = new SimulationEngine(mapConfig, eventListeners, dayChangeListeners);
+        simulationEngine = new SimulationEngine(mapConfig, eventListeners, dayChangeListeners);
         try {
             simulationEngine.run();
         } catch (InterruptedException e) {
@@ -92,5 +94,13 @@ public class SimulationRuntime implements Runnable {
         } catch (InterruptedException e) {
             endThread();
         }
+    }
+
+    public void toggleEngine(boolean running) {
+        simulationEngine.setRunning(running);
+    }
+
+    public void setDelay(int value) {
+        simulationEngine.setDelay(value);
     }
 }

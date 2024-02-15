@@ -1,5 +1,6 @@
 package agh.ics.oop.presenter;
 
+import agh.ics.oop.SimulationRuntime;
 import agh.ics.oop.model.DayChangeListener;
 import agh.ics.oop.model.MapConfig;
 import agh.ics.oop.model.WorldMap;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 
 public class SimulationRuntimePresenter implements DayChangeListener {
+    private SimulationRuntime simulationRuntime;
     private MapConfig mapConfig;
     private RuntimeMap runtimeMap;
     @FXML
@@ -66,6 +68,8 @@ public class SimulationRuntimePresenter implements DayChangeListener {
     @FXML
     private void initialize() {
         initializeToggleButton();
+
+        delaySlider.valueProperty().addListener((observable, oldValue, newValue) -> delaySimulation());
     }
 
     private void initializeToggleButton() {
@@ -128,12 +132,20 @@ public class SimulationRuntimePresenter implements DayChangeListener {
     }
 
     public void toggleSimulation() {
-        System.out.println(toggleButton.isSelected());
+        simulationRuntime.toggleEngine(toggleButton.isSelected());
+    }
+
+    public void delaySimulation() {
+        simulationRuntime.setDelay((int) delaySlider.getValue());
     }
 
     @Override
     public void dayPassed(WorldMap worldMap) {
         System.out.println("Day passed");
         // TODO: update the map
+    }
+
+    public void setSimulationRuntime(SimulationRuntime simulationRuntime) {
+        this.simulationRuntime = simulationRuntime;
     }
 }
