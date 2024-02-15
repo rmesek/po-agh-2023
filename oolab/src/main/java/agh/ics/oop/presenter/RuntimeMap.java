@@ -91,8 +91,8 @@ public class RuntimeMap {
         Map<Vector2d, Field> fields = worldMap.getFields();
 
         for (int x = 0; x < mapWidth; x++) {
-            mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
-            mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
+//            mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
+//            mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
             for (int y = 0; y < mapHeight; y++) {
                 drawField(fields, x, y);
                 drawAnimal(worldMap, x, y);
