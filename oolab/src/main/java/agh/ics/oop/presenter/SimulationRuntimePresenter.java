@@ -1,6 +1,7 @@
 package agh.ics.oop.presenter;
 
 import agh.ics.oop.SimulationRuntime;
+import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.DayChangeListener;
 import agh.ics.oop.model.MapConfig;
 import agh.ics.oop.model.WorldMap;
@@ -13,6 +14,10 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SimulationRuntimePresenter implements DayChangeListener {
     private SimulationRuntime simulationRuntime;
@@ -148,5 +153,33 @@ public class SimulationRuntimePresenter implements DayChangeListener {
     public void dayPassed(WorldMap worldMap) {
         System.out.println("Day passed");
         Platform.runLater(() -> runtimeMap.updateMap(worldMap));
+
+        Platform.runLater(() -> numberOfAnimals.setText(String.valueOf(worldMap.getAnimals().size())));
+        Platform.runLater(() -> numberOfPlants.setText(String.valueOf(worldMap.getFields().values().stream().filter(field -> field.hasGrass()).count())));
+        Platform.runLater(() -> numberOfFreeSpaces.setText(String.valueOf(worldMap.getFields().values().stream().filter(field -> !field.hasGrass()).count())));
+        Platform.runLater(() -> mostPopularGenotypes.setText(getMostPopularGenotypes(worldMap)));
+        Platform.runLater(() -> averageEnergy.setText(String.valueOf(worldMap.getAnimals().stream().filter(Animal::isAlive).map(animal -> Math.max(animal.getEnergy(), 0)).reduce(0, Integer::sum) / worldMap.getAnimals().size())));
+        Platform.runLater(() -> averageLifespan.setText(String.valueOf(worldMap.getAnimals().stream().map(animal -> Math.max(animal.getDaysAlive(), 0)).reduce(0, Integer::sum) / worldMap.getAnimals().size())));
+        Platform.runLater(() -> averageDescendandsForAlive.setText(String.valueOf(worldMap.getAnimals().stream().filter(Animal::isAlive).map(Animal::getChildrenCount).reduce(0, Integer::sum) / worldMap.getAnimals().stream().filter(Animal::isAlive).count())));
+    }
+
+    private String getMostPopularGenotypes(WorldMap worldMap) {
+        List<String> genotypes = new ArrayList<>();
+        for (Animal animal : worldMap.getAnimals()) {
+            if (animal.isAlive()) {
+                genotypes.add(String.valueOf(animal.getGenotype()));
+            }
+        }
+        return findByStream(genotypes, 3).toString();
+    }
+
+    private static List<String> findByStream(List<String> list, int n) {
+        // https://www.baeldung.com/java-n-most-frequent-elements-array#using-the-stream-api
+        return list.stream().collect(Collectors.groupingBy(i -> i, Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .map(Map.Entry::getKey)
+                .limit(n)
+                .collect(Collectors.toList());
     }
 }

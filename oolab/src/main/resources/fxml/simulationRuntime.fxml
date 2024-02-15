@@ -33,7 +33,7 @@
                     </VBox>
                 </TitledPane>
                 <!-- General info -->
-                <TitledPane animated="false" expanded="false" text="General">
+                <TitledPane animated="false" expanded="true" text="General">
                     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
                         <!-- liczby wszystkich zwierzaków -->
                         <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-padding: 5px">
