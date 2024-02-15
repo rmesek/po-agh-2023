@@ -1,6 +1,8 @@
 package agh.ics.oop.presenter;
 
+import agh.ics.oop.model.DayChangeListener;
 import agh.ics.oop.model.MapConfig;
+import agh.ics.oop.model.WorldMap;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -10,7 +12,7 @@ import javafx.scene.layout.VBox;
 import java.io.File;
 import java.lang.reflect.Field;
 
-public class SimulationRuntimePresenter {
+public class SimulationRuntimePresenter implements DayChangeListener {
     private MapConfig mapConfig;
     private RuntimeMap runtimeMap;
     @FXML
@@ -115,10 +117,6 @@ public class SimulationRuntimePresenter {
         setMapPane();
     }
 
-    public void setRealTime(String realTime) {
-//        timeLabel.setText(realTime);
-    }
-
     public void setThread(Thread thread) {
         configVBox.getChildren().add(createHBox("thread", thread.getName()));
         configVBox.getChildren().add(new Separator());
@@ -131,5 +129,11 @@ public class SimulationRuntimePresenter {
 
     public void toggleSimulation() {
         System.out.println(toggleButton.isSelected());
+    }
+
+    @Override
+    public void dayPassed(WorldMap worldMap) {
+        System.out.println("Day passed");
+        // TODO: update the map
     }
 }
