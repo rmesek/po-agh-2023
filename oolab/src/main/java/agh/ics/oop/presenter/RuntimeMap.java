@@ -18,12 +18,15 @@ public class RuntimeMap {
     private final int mapHeight;
     private static final int CELL_WIDTH = 32;
     private static final int CELL_HEIGHT = 32;
+    private static final AnimalComparator ANIMAL_COMPARATOR = new AnimalComparator();
+    private static final double ANIMAL_GOOD_HEALTH = 10.0;
     private static final Image ANIMAL_IMAGE = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/animal.png")).toExternalForm());
     private static final Image GRASS_IMAGE = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/grass.png")).toExternalForm());
     private static final Image TRACKED_FIELD = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/trackedField.png")).toExternalForm());
     private static final Image JUNGLE_FIELD = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/jungleField.png")).toExternalForm());
     private static final Image BEST_GENOTYPE = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/bestGenotype.png")).toExternalForm());
     private static final Image NORMAL_FIELD = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/normalField.png")).toExternalForm());
+
 
     public RuntimeMap(int mapWidth, int mapHeight, SimulationEngine simulationEngine) {
         this.mapWidth = mapWidth;
@@ -92,8 +95,16 @@ public class RuntimeMap {
             mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
             for (int y = 0; y < mapHeight; y++) {
                 drawField(fields, x, y);
+                drawAnimal(worldMap, x, y);
             }
         }
+    }
+
+    private void drawAnimal(WorldMap worldMap, int x, int y) {
+        List<Animal> animals = worldMap.getAnimalsAt(new Vector2d(x, mapHeight - y - 1));
+        if (animals.isEmpty()) return;
+        Animal animal = animals.stream().filter(Animal::isAlive).max(ANIMAL_COMPARATOR).orElse(animals.get(0));
+        addAnimal(x, y, animal.getOrientation().toDegrees(), animal.getEnergy() / ANIMAL_GOOD_HEALTH);
     }
 
     private void drawField(Map<Vector2d, Field> fields, int x, int y) {
@@ -102,6 +113,7 @@ public class RuntimeMap {
             case NORMAL -> addNormal(x, y);
             case JUNGLE -> addJungle(x, y);
         }
+        if (field.hasGrass()) addGrass(x, y);
     }
 
     public Node getContent() {
