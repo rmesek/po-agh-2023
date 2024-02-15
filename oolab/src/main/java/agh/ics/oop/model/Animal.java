@@ -13,6 +13,8 @@ public class Animal {
     private final MapConfig mapConfig;
     private final List<Integer> genotype;
     private int activeGenIndex = 0;
+    private int daysAlive = 0;
+    private List<Animal> children = new ArrayList<>();
 
     public Animal(MapConfig mapConfig, MapDirection initialOrientation, int energy, WorldMap worldMap) {
         this.mapConfig = mapConfig;
@@ -24,6 +26,26 @@ public class Animal {
         prepareGenotype();
     }
 
+    public void eatPlant() {
+        energy += worldMap.eatPlant(getPosition());
+    }
+
+    public void addDayAlive() {
+        daysAlive++;
+    }
+
+    public int getChildrenCount() {
+        return children.size();
+    }
+
+    public int getDaysAlive() {
+        return daysAlive;
+    }
+
+    public int getId() {
+        return animalId;
+    }
+
     private void nextGenIndex() {
         activeGenIndex = (activeGenIndex + 1) % mapConfig.lenOfGenome();
     }
@@ -33,6 +55,7 @@ public class Animal {
         orientation = orientation.next(gen);
 
         nextGenIndex();
+        worldMap.notifyEventListeners("Animal " + animalId + " activated gene " + gen);
     }
 
     private void prepareGenotype() {
@@ -40,6 +63,7 @@ public class Animal {
         for (int i = 0; i < mapConfig.lenOfGenome(); i++) {
             genotype.add(i, rand.nextInt(8));
         }
+        worldMap.notifyEventListeners("Animal " + animalId + " got genotype " + getGenotype());
     }
 
     public void mutate() {
@@ -53,6 +77,7 @@ public class Animal {
                 mutation.mutate(mapConfig, genotype);
             }
         }
+        worldMap.notifyEventListeners("Animal " + animalId + " mutated to " + getGenotype());
     }
 
 
@@ -62,6 +87,7 @@ public class Animal {
 
     public void setOrientation(MapDirection orientation) {
         this.orientation = orientation;
+        worldMap.notifyEventListeners("Animal " + animalId + " changed orientation to " + orientation);
     }
 
     public MapDirection getOrientation() {
@@ -70,6 +96,10 @@ public class Animal {
 
     public int getEnergy() {
         return energy;
+    }
+
+    public void consumeEnergy(int energy) {
+        this.energy -= energy;
     }
 
     public List<Integer> getGenotype() {
@@ -83,5 +113,9 @@ public class Animal {
     @Override
     public String toString() {
         return getPosition().toString() + " " + getOrientation().toString() + (isAlive() ? " Alive" : " Dead") + " AnimalId: " + animalId;
+    }
+
+    public void reproduce() {
+        // TODO: Implement this
     }
 }

@@ -22,9 +22,11 @@ public class CreepingJungle implements PlantGrowth {
         for (Vector2d position : positions) {
             if (jungleFields > 0) {
                 fields.put(position, new Field(worldMap, FieldType.JUNGLE));
+                worldMap.notifyEventListeners("New jungle field at " + position.toString());
                 jungleFields--;
             } else {
                 fields.put(position, new Field(worldMap, FieldType.NORMAL));
+                worldMap.notifyEventListeners("New normal field at " + position.toString());
             }
         }
         return fields;
@@ -36,11 +38,13 @@ public class CreepingJungle implements PlantGrowth {
         for (Field field : fields.values()) {
             field.setType(FieldType.NORMAL);
         }
+        worldMap.notifyEventListeners("Cleared jungle fields");
         for (Field field : fields.values()) {
             for (MapDirection direction : MapDirection.values()) {
                 Vector2d neighbourPosition = field.getPosition().add(direction.toUnitVector());
                 if (fields.containsKey(neighbourPosition) && field.hasGrass()) {
                     fields.get(neighbourPosition).setType(FieldType.JUNGLE);
+                    worldMap.notifyEventListeners("Update to jungle field at " + neighbourPosition.toString());
                 }
             }
         }

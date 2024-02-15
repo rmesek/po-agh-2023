@@ -6,15 +6,18 @@ public class WorldMap {
     private final MapConfig mapConfig;
     private final Map<Animal, Vector2d> animalPositions = new HashMap<>();
     private final Map<Vector2d, Field> fields = new HashMap<>();
+    private final List<EventListener> eventListeners = new LinkedList<>();
 
 
-    public WorldMap(MapConfig mapConfig) {
+    public WorldMap(MapConfig mapConfig, List<EventListener> eventListeners) {
         this.mapConfig = mapConfig;
+        if (eventListeners != null) this.eventListeners.addAll(eventListeners);
 
         prepareFields();
         preparePlants();
         prepareAnimals();
     }
+
 
     private void prepareFields() {
         switch (mapConfig.plantGrowthVariant()) {
@@ -51,17 +54,22 @@ public class WorldMap {
         if (onJungle && !jungleFreePositions.isEmpty()) {
             int randomIndex = rand.nextInt(jungleFreePositions.size());
             fields.get(jungleFreePositions.get(randomIndex)).setGrass(true);
+            notifyEventListeners("New grass on jungle at " + jungleFreePositions.get(randomIndex).toString());
         } else if (!normalFreePositions.isEmpty()) {
             int randomIndex = rand.nextInt(normalFreePositions.size());
             fields.get(normalFreePositions.get(randomIndex)).setGrass(true);
+            notifyEventListeners("New grass on normal at " + normalFreePositions.get(randomIndex).toString());
         }
     }
 
-    public void eatPlant(Vector2d position) {
+    public int eatPlant(Vector2d position) {
         Field field = fields.get(position);
         if (field.hasGrass()) {
             field.setGrass(false);
+            notifyEventListeners("Grass eaten at " + field.getPosition());
+            return mapConfig.energyPerPlant();
         }
+        return 0;
     }
 
     private void prepareAnimals() {
@@ -76,6 +84,7 @@ public class WorldMap {
         MapDirection orientation = MapDirection.values()[rand.nextInt(MapDirection.values().length)];
         Animal animal = new Animal(mapConfig, orientation, mapConfig.initialEnergyOfAnimal(), this);
         animalPositions.put(animal, position);
+        notifyEventListeners("New " + animal.toString() + " at " + position.toString());
     }
 
 
@@ -94,7 +103,7 @@ public class WorldMap {
     }
 
 
-    private void updateFields() {
+    public void updateFields() {
         switch (mapConfig.plantGrowthVariant()) {
             case FORESTED_EQUATOR -> {
                 PlantGrowth plantGrowth = new ForestedEquator();
@@ -128,6 +137,7 @@ public class WorldMap {
             animalPositions.put(animal, newPosition);
         }
         animal.setOrientation(newOrientation);
+        notifyEventListeners(animal.toString() + " moved from " + oldPosition.toString() + " to " + newPosition.toString());
     }
 
     public List<Animal> getAnimals() {
@@ -140,5 +150,15 @@ public class WorldMap {
 
     public Map<Vector2d, Field> getFields() {
         return Collections.unmodifiableMap(fields);
+    }
+
+//    public void addEventListener(EventListener listener) {
+//        eventListeners.add(listener);
+//    }
+
+    public void notifyEventListeners(String event) {
+        for (EventListener listener : eventListeners) {
+            listener.update(event);
+        }
     }
 }

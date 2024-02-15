@@ -1,30 +1,29 @@
 package agh.ics.oop.model;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Thread.sleep;
 
 public class SimulationEngine {
-    private final List<EventListener> eventListeners = new LinkedList<>();
+    private static final AnimalComparator ANIMAL_COMPERATOR = new AnimalComparator();
+    private static final int ENERGY_LOSS_PER_DAY = 1;
     private final List<DayChangeListener> dayChangeListeners = new LinkedList<>();
     private WorldMap worldMap;
-    private int trackedAnimalId = -1;  // TODO: Trackowanie tylko w UI?
+    private MapConfig mapConfig;
 
     private boolean isRunning = false;
     private int delay = 0;
 
-    public SimulationEngine(MapConfig mapConfig) {
-        prepareSimulation();
+    public SimulationEngine(MapConfig mapConfig, List<EventListener> eventListeners, List<DayChangeListener> dayChangeListeners) {
+        this.mapConfig = mapConfig;
+        this.worldMap = new WorldMap(mapConfig, eventListeners);
+
+        this.dayChangeListeners.addAll(dayChangeListeners);
 
         notifyDayChangeListeners(worldMap);
-    }
-
-    private void prepareSimulation() {
-    }
-
-    public void setTrackedAnimalId(int id) {
-        trackedAnimalId = id;
     }
 
     public void setDelay(int delay) {
@@ -54,27 +53,42 @@ public class SimulationEngine {
     }
 
     private void removeDeadAnimals() {
+        for (Animal animal : worldMap.getAnimals()) {
+            animal.consumeEnergy(ENERGY_LOSS_PER_DAY);
+            if (!animal.isAlive()) {
+                worldMap.notifyEventListeners("Animal " + animal.getId() + " died");
+            }
+            animal.addDayAlive();
+        }
     }
 
     private void moveAnimals() {
+        for (Animal animal : worldMap.getAnimals()) {
+            if (animal.isAlive()){
+                animal.activateGen();
+                worldMap.moveAnimal(animal);
+            }
+        }
     }
 
     private void eatPlants() {
+        var animals = worldMap.getAnimals().stream().filter(Animal::isAlive).sorted(ANIMAL_COMPERATOR).toList();
+        for (Animal animal : animals) {
+            animal.eatPlant();
+        }
     }
 
     private void reproduceAnimals() {
+        var animals = worldMap.getAnimals().stream().filter(Animal::isAlive).sorted(ANIMAL_COMPERATOR).toList();
+        for (Animal animal : animals) {
+            animal.reproduce();
+        }
     }
 
     private void growPlants() {
-    }
-
-    public void addEventListener(EventListener listener) {
-        eventListeners.add(listener);
-    }
-
-    public void notifyEventListeners(String event) {
-        for (EventListener listener : eventListeners) {
-            listener.update(event);
+        worldMap.updateFields();
+        for (int i = 0; i < mapConfig.newPlantsPerDay(); i++) {
+            worldMap.growPlant();
         }
     }
 

@@ -16,8 +16,10 @@ public class ForestedEquator implements PlantGrowth {
                 Vector2d position = new Vector2d(x, y);
                 if (y >= bottomY && y <= topY) {
                     fields.put(position, new Field(worldMap, FieldType.JUNGLE));
+                    worldMap.notifyEventListeners("New jungle field at " + position.toString());
                 } else {
                     fields.put(position, new Field(worldMap, FieldType.NORMAL));
+                    worldMap.notifyEventListeners("New normal field at " + position.toString());
                 }
             }
         }
