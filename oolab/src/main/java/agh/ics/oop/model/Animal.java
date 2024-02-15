@@ -1,5 +1,8 @@
 package agh.ics.oop.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Animal {
     private final WorldMap worldMap;
     private MapDirection orientation;
@@ -7,6 +10,7 @@ public class Animal {
     private int energy;
     private final MapConfig mapConfig;
     private boolean isAlive = true;
+    private final List<Integer> genotype;
 
     public Animal(MapConfig mapConfig, MapDirection initialOrientation, int energy, WorldMap worldMap) {
         this.mapConfig = mapConfig;
@@ -14,12 +18,25 @@ public class Animal {
         this.animalId = worldMap.getAnimals().size();
         this.energy = energy;
         this.worldMap = worldMap;
+        this.genotype = new ArrayList<>(mapConfig.lenOfGenome());
+    }
+
+    public void mutate() {
+        switch (mapConfig.mutationVariant()) {
+            case COMPLETE_RANDOMIZATION -> {
+                Mutation mutation = new CompleteRandomization();
+                mutation.mutate(mapConfig, genotype);
+            }
+            case SLIGHT_CORRECTION -> {
+                Mutation mutation = new SlightCorrection();
+                mutation.mutate(mapConfig, genotype);
+            }
+        }
     }
 
     public void killAnimal() {
         isAlive = false;
     }
-
 
     public Vector2d getPosition() {
         return worldMap.getAnimalPositions().get(this);
@@ -31,6 +48,10 @@ public class Animal {
 
     public MapDirection getOrientation() {
         return orientation;
+    }
+
+    public int getEnergy() {
+        return energy;
     }
 
     @Override
