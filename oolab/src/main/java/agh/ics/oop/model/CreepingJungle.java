@@ -31,8 +31,17 @@ public class CreepingJungle implements PlantGrowth {
     }
 
     @Override
-    public Map<Vector2d, Field> updateFields(Map<Vector2d, Field> fields) {
-        // TODO: prefer plant neighbouring fields
-        return fields;
+    public void updateFields(Map<Vector2d, Field> fields) {
+        for (Field field : fields.values()) {
+            field.setType(FieldType.NORMAL);
+        }
+        for (Field field : fields.values()) {
+            for (MapDirection direction : MapDirection.values()) {
+                Vector2d neighbourPosition = field.getPosition().add(direction.toUnitVector());
+                if (fields.containsKey(neighbourPosition) && field.hasGrass()) {
+                    fields.get(neighbourPosition).setType(FieldType.JUNGLE);
+                }
+            }
+        }
     }
 }

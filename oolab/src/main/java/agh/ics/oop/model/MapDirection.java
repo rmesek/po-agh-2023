@@ -33,7 +33,7 @@ public enum MapDirection {
     }
 
     public Vector2d toUnitVector() {
-        return this.vector2d;
+        return vector2d;
     }
 
     public double toDegrees() {

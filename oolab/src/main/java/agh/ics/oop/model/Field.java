@@ -18,6 +18,18 @@ public class Field {
         return type;
     }
 
+    public void setType(FieldType type) {
+        this.type = type;
+    }
+
+    public boolean hasGrass() {
+        return hasGrass;
+    }
+
+    public void setGrass() {
+        hasGrass = true;
+    }
+
     @Override
     public String toString() {
         return getPosition().toString() + " " + type.toString();
