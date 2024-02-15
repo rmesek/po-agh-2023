@@ -4,6 +4,7 @@ import agh.ics.oop.SimulationRuntime;
 import agh.ics.oop.model.DayChangeListener;
 import agh.ics.oop.model.MapConfig;
 import agh.ics.oop.model.WorldMap;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -84,7 +85,7 @@ public class SimulationRuntimePresenter implements DayChangeListener {
     }
 
     private void setMapPane() {
-        runtimeMap = new RuntimeMap(mapConfig.mapWidth(), mapConfig.mapHeight());
+        runtimeMap = new RuntimeMap(mapConfig.mapWidth(), mapConfig.mapHeight(), simulationRuntime.getSimulationEngine());
         mapPane.setContent(runtimeMap.getContent());
     }
 
@@ -139,13 +140,13 @@ public class SimulationRuntimePresenter implements DayChangeListener {
         simulationRuntime.setDelay((int) delaySlider.getValue());
     }
 
+    public void setSimulationRuntime(SimulationRuntime simulationRuntime) {
+        this.simulationRuntime = simulationRuntime;
+    }
+
     @Override
     public void dayPassed(WorldMap worldMap) {
         System.out.println("Day passed");
-        // TODO: update the map
-    }
-
-    public void setSimulationRuntime(SimulationRuntime simulationRuntime) {
-        this.simulationRuntime = simulationRuntime;
+        Platform.runLater(() -> runtimeMap.updateMap(worldMap));
     }
 }

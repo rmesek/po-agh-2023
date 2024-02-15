@@ -95,6 +95,9 @@ public class SimulationRuntime implements Runnable {
             endThread();
         }
     }
+    public SimulationEngine getSimulationEngine() {
+        return simulationEngine;
+    }
 
     public void toggleEngine(boolean running) {
         simulationEngine.setRunning(running);

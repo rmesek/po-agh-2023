@@ -1,5 +1,6 @@
 package agh.ics.oop.presenter;
 
+import agh.ics.oop.model.*;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Effect;
@@ -7,6 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class RuntimeMap {
@@ -22,7 +25,7 @@ public class RuntimeMap {
     private static final Image BEST_GENOTYPE = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/bestGenotype.png")).toExternalForm());
     private static final Image NORMAL_FIELD = new Image(Objects.requireNonNull(RuntimeMap.class.getClassLoader().getResource("img/normalField.png")).toExternalForm());
 
-    public RuntimeMap(int mapWidth, int mapHeight) {
+    public RuntimeMap(int mapWidth, int mapHeight, SimulationEngine simulationEngine) {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
         this.mapGrid = new GridPane();
@@ -80,23 +83,33 @@ public class RuntimeMap {
         mapGrid.add(trackedImageView, x, y);
     }
 
-    private void updateMap() {
+    public void updateMap(WorldMap worldMap) {
         clearGrid();
+        Map<Vector2d, Field> fields = worldMap.getFields();
+
         for (int x = 0; x < mapWidth; x++) {
             mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
             mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
             for (int y = 0; y < mapHeight; y++) {
-                // TODO: objectAt(x,y) ...
-                addNormal(x, y);
+                drawField(fields, x, y);
             }
         }
-        addAnimal(0, 1, 0, 0.2);
-        addTracked(0, 1);
-        addBestGenotype(0, 1);
+    }
+
+    private void drawField(Map<Vector2d, Field> fields, int x, int y) {
+        Field field = fields.get(new Vector2d(x, mapHeight - y - 1));
+        switch (field.getType()) {
+            case NORMAL -> addNormal(x, y);
+            case JUNGLE -> addJungle(x, y);
+        }
     }
 
     public Node getContent() {
-        updateMap();
+        clearGrid();
+        for (int x = 0; x < mapWidth; x++) {
+            mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
+            mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
+        }
         return mapGrid;
     }
 }
