@@ -21,7 +21,7 @@ public class SimulationEngine {
         this.mapConfig = mapConfig;
         this.worldMap = new WorldMap(mapConfig, eventListeners);
 
-        this.dayChangeListeners.addAll(dayChangeListeners);
+        if (dayChangeListeners != null) this.dayChangeListeners.addAll(dayChangeListeners);
 
         notifyDayChangeListeners(worldMap);
     }

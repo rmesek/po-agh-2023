@@ -66,7 +66,6 @@ public class WorldMap {
         Field field = fields.get(position);
         if (field.hasGrass()) {
             field.setGrass(false);
-            notifyEventListeners("Grass eaten at " + field.getPosition());
             return mapConfig.energyPerPlant();
         }
         return 0;
@@ -85,10 +84,16 @@ public class WorldMap {
         Animal animal = new Animal(mapConfig, orientation, mapConfig.initialEnergyOfAnimal(), this);
         animalPositions.put(animal, position);
         notifyEventListeners("New " + animal.toString() + " at " + position.toString());
+        animal.prepareGenotype();
+    }
+
+    public void spawnChild(Animal animal, Vector2d position) {
+        animalPositions.put(animal, position);
+        notifyEventListeners("New " + animal.toString() + " at " + position.toString());
     }
 
 
-    private List<Animal> getAnimalsAt(Vector2d position) {
+    public List<Animal> getAnimalsAt(Vector2d position) {
         List<Animal> animals = new ArrayList<>();
         for (Animal animal : animalPositions.keySet()) {
             if (position.equals(animalPositions.get(animal))) {
