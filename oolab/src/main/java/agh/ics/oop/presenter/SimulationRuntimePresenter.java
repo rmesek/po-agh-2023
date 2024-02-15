@@ -1,7 +1,6 @@
 package agh.ics.oop.presenter;
 
 import agh.ics.oop.model.MapConfig;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -12,19 +11,21 @@ import java.io.File;
 import java.lang.reflect.Field;
 
 public class SimulationRuntimePresenter {
-
+    private MapConfig mapConfig;
+    private RuntimeMap runtimeMap;
     @FXML
-    private ToggleButton toggleButton;
-    @FXML
-    private Slider delaySlider;
-    @FXML
-    private VBox controlsVBox;
+    private ScrollPane mapPane;
     @FXML
     private VBox configVBox;
     @FXML
     private Label graphLabel;
     @FXML
     private Label timeLabel;
+    // Controls
+    @FXML
+    private Slider delaySlider;
+    @FXML
+    private ToggleButton toggleButton;
     // General info
     @FXML
     private Label numberOfAnimals;
@@ -60,8 +61,6 @@ public class SimulationRuntimePresenter {
     @FXML
     private Label trackedDayOfDeath;
 
-
-
     @FXML
     private void initialize() {
         initializeToggleButton();
@@ -76,6 +75,11 @@ public class SimulationRuntimePresenter {
                 toggleButton.setText("Start");
             }
         });
+    }
+
+    private void setMapPane() {
+        runtimeMap = new RuntimeMap(mapConfig.mapWidth(), mapConfig.mapHeight());
+        mapPane.setContent(runtimeMap.getContent());
     }
 
     private void appendConfigInfo(MapConfig mapConfig) {
@@ -106,7 +110,9 @@ public class SimulationRuntimePresenter {
     }
 
     public void setMapConfig(MapConfig mapConfig) {
+        this.mapConfig = mapConfig;
         appendConfigInfo(mapConfig);
+        setMapPane();
     }
 
     public void setRealTime(String realTime) {
