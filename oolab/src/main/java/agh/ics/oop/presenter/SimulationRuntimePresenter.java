@@ -160,7 +160,7 @@ public class SimulationRuntimePresenter implements DayChangeListener {
         Platform.runLater(() -> mostPopularGenotypes.setText(getMostPopularGenotypes(worldMap)));
         Platform.runLater(() -> averageEnergy.setText(String.valueOf(worldMap.getAnimals().stream().filter(Animal::isAlive).map(animal -> Math.max(animal.getEnergy(), 0)).reduce(0, Integer::sum) / worldMap.getAnimals().size())));
         Platform.runLater(() -> averageLifespan.setText(String.valueOf(worldMap.getAnimals().stream().map(animal -> Math.max(animal.getDaysAlive(), 0)).reduce(0, Integer::sum) / worldMap.getAnimals().size())));
-        Platform.runLater(() -> averageDescendandsForAlive.setText(String.valueOf(worldMap.getAnimals().stream().filter(Animal::isAlive).map(Animal::getChildrenCount).reduce(0, Integer::sum) / worldMap.getAnimals().stream().filter(Animal::isAlive).count())));
+        Platform.runLater(() -> averageDescendandsForAlive.setText(String.valueOf(worldMap.getAnimals().stream().filter(Animal::isAlive).map(Animal::getChildrenCount).reduce(0, Integer::sum) / Math.max(worldMap.getAnimals().stream().filter(Animal::isAlive).count(),1))));
     }
 
     private String getMostPopularGenotypes(WorldMap worldMap) {

@@ -54,10 +54,10 @@ public class SimulationEngine {
 
     private void removeDeadAnimals() {
         for (Animal animal : worldMap.getAnimals()) {
-            animal.consumeEnergy(ENERGY_LOSS_PER_DAY);
-            if (!animal.isAlive()) {
+            if (animal.isAlive() && animal.getEnergy() - ENERGY_LOSS_PER_DAY < 0) {
                 worldMap.notifyEventListeners("Animal " + animal.getId() + " died");
             }
+            animal.consumeEnergy(ENERGY_LOSS_PER_DAY);
             animal.addDayAlive();
         }
     }
