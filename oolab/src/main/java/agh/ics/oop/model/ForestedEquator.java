@@ -25,7 +25,7 @@ public class ForestedEquator implements PlantGrowth {
     }
 
     @Override
-    public Map<Vector2d, Field> updateFields(MapConfig mapConfig, Map<Vector2d, Field> fields) {
+    public Map<Vector2d, Field> updateFields(Map<Vector2d, Field> fields) {
         return fields;
     }
 }
