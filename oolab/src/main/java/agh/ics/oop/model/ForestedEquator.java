@@ -6,7 +6,7 @@ import java.util.Map;
 public class ForestedEquator implements PlantGrowth {
     private static final int JUNGLE_PERCENTAGE = 20;
     @Override
-    public Map<Vector2d, Field> prepareFields(MapConfig mapConfig) {
+    public Map<Vector2d, Field> prepareFields(MapConfig mapConfig, WorldMap worldMap) {
         Map<Vector2d, Field> fields = new HashMap<>();
         int middleY = mapConfig.mapHeight() / 2;
         int bottomY = middleY - (mapConfig.mapHeight() * JUNGLE_PERCENTAGE / 200);
@@ -15,9 +15,9 @@ public class ForestedEquator implements PlantGrowth {
             for (int x = 0; x < mapConfig.mapWidth(); x++) {
                 Vector2d position = new Vector2d(x, y);
                 if (y >= bottomY && y <= topY) {
-                    fields.put(position, new Field(position, FieldType.JUNGLE));
+                    fields.put(position, new Field(worldMap, FieldType.JUNGLE));
                 } else {
-                    fields.put(position, new Field(position, FieldType.NORMAL));
+                    fields.put(position, new Field(worldMap, FieldType.NORMAL));
                 }
             }
         }
@@ -25,7 +25,7 @@ public class ForestedEquator implements PlantGrowth {
     }
 
     @Override
-    public void updateFields(Map<Vector2d, Field> fields) {
+    public void updateFields(WorldMap worldMap) {
         // do nothing
     }
 }

@@ -1,17 +1,25 @@
 package agh.ics.oop.model;
 
+import java.util.List;
+
 public class Field {
-    private final Vector2d position;
-    private FieldType type = FieldType.NORMAL;
+    private final WorldMap worldMap;
+    private FieldType type;
     private boolean hasGrass = false;
 
-    public Field(Vector2d position, FieldType type) {
-        this.position = position;
+    public Field(WorldMap worldMap, FieldType type) {
+        this.worldMap = worldMap;
         this.type = type;
     }
 
     public Vector2d getPosition() {
-        return position;
+        var worldMapFields = worldMap.getFields();
+        for (Vector2d position : worldMapFields.keySet()) {
+            if (worldMapFields.get(position) == this) {
+                return position;
+            }
+        }
+        throw new RuntimeException("Field not found in worldMap fields.");  // TODO: should never happen
     }
 
     public FieldType getType() {
@@ -26,12 +34,12 @@ public class Field {
         return hasGrass;
     }
 
-    public void setGrass() {
-        hasGrass = true;
+    public void setGrass(boolean hasGrass) {
+        this.hasGrass = hasGrass;
     }
 
     @Override
     public String toString() {
-        return getPosition().toString() + " " + type.toString();
+        return getPosition().toString() + " " + type.toString() + " " + hasGrass;
     }
 }

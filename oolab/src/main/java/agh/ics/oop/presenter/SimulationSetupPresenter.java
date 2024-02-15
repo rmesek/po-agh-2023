@@ -313,7 +313,7 @@ public class SimulationSetupPresenter {
         }
     }
 
-    public void onStart() throws FileNotFoundException {
+    public void onStart() {
         if (logToFile.isSelected()) {
             try {
                 setupFileLogging();
