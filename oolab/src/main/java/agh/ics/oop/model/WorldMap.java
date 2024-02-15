@@ -10,9 +10,20 @@ public class WorldMap {
     private final Map<Vector2d, Field> fields = new HashMap<>();
 
 
-    public WorldMap(int width, int height) {
-        this.width = width;
-        this.height = height;
+    public WorldMap(MapConfig mapConfig) {
+        this.width = mapConfig.mapWidth();
+        this.height = mapConfig.mapHeight();
+
+        prepareFields();
+    }
+
+    private void prepareFields() {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < height; x++) {
+                Vector2d position = new Vector2d(y, x);
+                fields.put(position, new Field(position, FieldType.NORMAL));
+            }
+        }
     }
 
     public void moveAnimal(Animal animal) {

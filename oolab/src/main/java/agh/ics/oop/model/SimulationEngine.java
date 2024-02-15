@@ -9,7 +9,7 @@ public class SimulationEngine {
     private final List<EventListener> eventListeners = new LinkedList<>();
     private final List<DayChangeListener> dayChangeListeners = new LinkedList<>();
     private WorldMap worldMap;
-    private int trackedAnimalId = -1;
+    private int trackedAnimalId = -1;  // TODO: Trackowanie tylko w UI?
 
     private boolean isRunning = false;
     private int delay = 0;

@@ -4,7 +4,7 @@ public class Animal {
     private Vector2d position;
     private MapDirection orientation;
     private int energy;
-    public Animal(Vector2d initialPosition, MapDirection initialOrientation, int energy) {
+    public Animal(Vector2d initialPosition, MapDirection initialOrientation, int energy, MapConfig mapConfig) {
         setPosition(initialPosition, initialOrientation);
         this.energy = energy;
     }
