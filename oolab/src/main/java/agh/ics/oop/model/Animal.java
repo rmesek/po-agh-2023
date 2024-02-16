@@ -10,7 +10,7 @@ public class Animal {
     private final int animalId;
     private int energy;
     private final MapConfig mapConfig;
-    private final List<Integer> genotype;
+    private final List<Integer> genotype; // nie opłaciłaby się klasa na genotyp?
     private int activeGenIndex = 0;
     private int daysAlive = 0;
     private List<Animal> children = new ArrayList<>();
@@ -63,7 +63,7 @@ public class Animal {
     }
 
     public void prepareGenotype() {
-        Random rand = new Random();
+        Random rand = new Random(); // nowy obiekt co wywołanie?
         for (int i = 0; i < mapConfig.lenOfGenome(); i++) {
             genotype.add(i, rand.nextInt(8));
         }
@@ -86,10 +86,10 @@ public class Animal {
 
 
     public Vector2d getPosition() {
-        return worldMap.getAnimalPositions().get(this);
+        return worldMap.getAnimalPositions().get(this); // ?
     }
 
-    public void setOrientation(MapDirection orientation) {
+    public void setOrientation(MapDirection orientation) { //?
         this.orientation = orientation;
         worldMap.notifyEventListeners("Animal " + animalId + " changed orientation to " + orientation);
     }
@@ -142,12 +142,12 @@ public class Animal {
         List<Integer> strongerGenotype = new ArrayList<>(stronger.getGenotype());
         List<Integer> weakerGenotype = new ArrayList<>(weaker.getGenotype());
         if (Math.random() > 0.5) {
-            Collections.reverse(strongerGenotype);
+            Collections.reverse(strongerGenotype); // ?
         } else {
             Collections.reverse(weakerGenotype);
         }
         List<Integer> childGenotype = Stream.concat(strongerGenotype.stream().limit(cutIndex), weakerGenotype.stream().skip(cutIndex)).toList();
-        Animal child = new Animal(mapConfig, MapDirection.values()[rand.nextInt(MapDirection.values().length)], mapConfig.reproductionEnergy() * 2, worldMap);
+        Animal child = new Animal(mapConfig, MapDirection.values()[rand.nextInt(MapDirection.values().length)], mapConfig.reproductionEnergy() * 2, worldMap); // MapDirection.getRandom()
         child.genotype.addAll(childGenotype);
         worldMap.spawnChild(child, getPosition());
         if (child.genotype.size() != mapConfig.lenOfGenome()) {

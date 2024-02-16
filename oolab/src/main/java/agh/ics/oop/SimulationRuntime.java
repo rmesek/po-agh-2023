@@ -56,7 +56,7 @@ public class SimulationRuntime implements Runnable {
             primaryStage.setTitle(WINDOW_TITLE + " " + simulationRuntimeCounter);
             primaryStage.setOnCloseRequest(this::handleCloseRequest);
             primaryStage.show();
-        } catch (Exception e) {
+        } catch (Exception e) { // ?
             throw new RuntimeException(e);
         }
     }
@@ -82,7 +82,7 @@ public class SimulationRuntime implements Runnable {
         try {
             simulationEngine.run();
         } catch (InterruptedException e) {
-            endThread();
+            endThread(); // ?
         }
     }
 

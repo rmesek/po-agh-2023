@@ -96,7 +96,7 @@ public class WorldMap {
     public List<Animal> getAnimalsAt(Vector2d position) {
         List<Animal> animals = new ArrayList<>();
         for (Animal animal : animalPositions.keySet()) {
-            if (position.equals(animalPositions.get(animal))) {
+            if (position.equals(animalPositions.get(animal))) { // https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap
                 animals.add(animal);
             }
         }

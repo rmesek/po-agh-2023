@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 
 public class FileLogger implements EventListener {
-    File file;
+    File file; // świadomie wybrany modyfikator dostępu?
 
     public FileLogger(File file) {
         this.file = file;

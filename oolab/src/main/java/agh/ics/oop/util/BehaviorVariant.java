@@ -1,7 +1,7 @@
 package agh.ics.oop.util;
 
-public enum BehaviorVariant {
-    COMPLETE_PREDESTINATION;
+public enum BehaviorVariant { // czemu to nie jest część modelu?
+    COMPLETE_PREDESTINATION; // enum z jedną wartością?
 
     @Override
     public String toString() {

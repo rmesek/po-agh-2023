@@ -92,7 +92,7 @@ public class SimulationEngine {
         }
     }
 
-    public void addDayChangeListener(DayChangeListener listener) {
+    public void addDayChangeListener(DayChangeListener listener) { // nieużywana metoda
         dayChangeListeners.add(listener);
     }
 

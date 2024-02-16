@@ -74,7 +74,7 @@ public class SimulationSetup extends Application {
         executorService.shutdownNow();
         try {
             super.stop();
-        } catch (Exception e) {
+        } catch (Exception e) { // ?
             e.printStackTrace();
         }
     }

@@ -26,7 +26,7 @@ public class Field {
         return type;
     }
 
-    public void setType(FieldType type) {
+    public void setType(FieldType type) { // czy na pewno?
         this.type = type;
     }
 
